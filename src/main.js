@@ -6,7 +6,6 @@ Vue.config.productionTip = false;
 import router from "@/router/index";
 //状态管理Vuex
 import store from "@/store/index";
-
 //全局组件
 import Footer from "@/components/footer";
 import Header from "@/components/header";
