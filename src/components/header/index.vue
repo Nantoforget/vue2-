@@ -51,7 +51,7 @@
                         <button
                             class="sui-btn btn-xlarge btn-danger"
                             type="button"
-                            @click="go">
+                            @click="goSearch">
                             搜索
                         </button>
                     </form>
@@ -61,7 +61,6 @@
     </div>
 </template>
 <script>
-    import { getBaseCategoryList } from "@/api";
     export default {
         name: "Header",
         data() {
@@ -71,10 +70,6 @@
             };
         },
         methods: {
-            async go() {
-                let result = await getBaseCategoryList();
-                console.log(result);
-            },
             //搜索
             goSearch() {
                 /*
