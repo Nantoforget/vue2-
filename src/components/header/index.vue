@@ -46,7 +46,8 @@
                         <input
                             type="text"
                             id="autocomplete"
-                            class="input-error input-xxlarge" />
+                            class="input-error input-xxlarge"
+                            v-model="keyword" />
                         <button
                             class="sui-btn btn-xlarge btn-danger"
                             type="button"
@@ -63,13 +64,34 @@
     export default {
         name: "Header",
         data() {
-            return {};
+            return {
+                //收集表单文本
+                keyword: "",
+            };
         },
         methods: {
+            //搜索
             goSearch() {
+                /*
+                    vue-router有两种导航：1.声明式，2.编程式
+                                有两种传参方式：
+                                    1.query
+                                        ?k=val&k=val
+                                    2.params(需要在配置路由时占位)
+                                        /k=val/k=val
+                 */
                 this.$router.push({
-                    path: "/Search",
+                    //params参数不能与path一起用
+                    name: "search",
+                    params: {
+                        /* 
+                            如果keyword为空字符串时，跳转会出现路径问题(http://127.0.0.1:8080/#/,控制台会出现警告信息)
+                            所有要进行判断，当关键字为空时，重新赋值给undefined
+                         */
+                        keyword: this.keyword || undefined,
+                    },
                 });
+                this.keyword = null;
             },
         },
         computed: {},
