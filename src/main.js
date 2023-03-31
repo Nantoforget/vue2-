@@ -10,8 +10,10 @@ import store from "@/store/index";
 //全局组件
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import TypeNav from "@/components/typeNav";
 Vue.component(Footer.name, Footer);
 Vue.component(Header.name, Header);
+Vue.component(TypeNav.name, TypeNav);
 
 new Vue({
     beforeCreate() {
