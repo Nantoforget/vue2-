@@ -7,8 +7,8 @@ module.exports = defineConfig({
         port: 8080,
         proxy: {
             "/api": {
-                target: "http://39.98.123.211",
-                pathRewrite: { "/api": "" },
+                target: "http://sph-h5-api.atguigu.cn",
+                // pathRewrite: { "/api": "" },//真实接口有api，不需要重新
             },
         },
     },

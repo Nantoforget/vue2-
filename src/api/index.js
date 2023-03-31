@@ -1,25 +1,10 @@
-import axios from "axios";
-import nProgress from "nprogress";
-import "nprogress/nprogress.css";
-//自定义axios实例
-const requests = axios.create({
-    baseURL: "/api",
-    timeout: 5000,
-});
-//请求拦截器
-requests.interceptors.request.use(
-    (config) => {
-        //开始请求条
-        nProgress.start();
-        return config;
-    },
-    (err) => {
-        return new Promise.reject(err);
-    }
-);
-//响应拦截器
-requests.interceptors.response.use((res) => {
-    //结束请求条
-    nProgress.done();
-    return res.data;
-});
+import request from "./request.js";
+
+//商品分类的接口
+//函数：复用，声明一次，可以多次调用
+export const getBaseCategoryList = () => {
+    return request({
+        url: "/product/getBaseCategoryList",
+        method: "get",
+    });
+};
