@@ -1,15 +1,16 @@
 <template>
-    <div></div>
+    <div>
+        <h1>我是搜索</h1>
+    </div>
 </template>
 <script>
-export default {
-    name: "Search",
-    data() {
-        return {};
-    },
-    methods: {},
-    computed: {},
-};
+    export default {
+        name: "Search",
+        data() {
+            return {};
+        },
+        methods: {},
+        computed: {},
+    };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

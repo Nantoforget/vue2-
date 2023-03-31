@@ -68,7 +68,7 @@
         methods: {
             goSearch() {
                 this.$router.push({
-                    path: "/",
+                    path: "/Search",
                 });
             },
         },

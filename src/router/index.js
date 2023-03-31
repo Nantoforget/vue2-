@@ -13,18 +13,22 @@ const routers = new VueRouter({
         {
             path: "/home",
             component: Home,
+            meta: { isShow: true }, //路由元信息：给当前路由注入一些额外的信息；必须是meta，只可以任意类型
         },
         {
             path: "/login",
             component: Login,
+            meta: { isShow: false },
         },
         {
             path: "/register",
             component: Register,
+            meta: { isShow: false },
         },
         {
             path: "/search",
             component: Search,
+            meta: { isShow: true },
         },
         {
             path: "/",
