@@ -2,7 +2,7 @@
     <div>
         <!-- 商品分类导航 -->
         <div class="type-nav">
-            <div class="container">
+            <div class="container" @mouseleave="leaveHandler">
                 <h2 class="all">全部商品分类</h2>
                 <nav class="nav">
                     <a href="###"> 服装城 </a>
@@ -19,12 +19,21 @@
                         <!-- 一级分类 -->
                         <div
                             class="item"
-                            v-for="c1 in list"
+                            v-for="(c1, index) in list"
                             :key="c1.categoryId">
-                            <h3>
+                            <h3
+                                :class="{ cur: currentIndex === index }"
+                                @mouseenter="highLight(index)">
                                 <a href="">{{ c1.categoryName }}</a>
                             </h3>
-                            <div class="item-list clearfix">
+                            <div
+                                class="item-list clearfix"
+                                :style="{
+                                    display:
+                                        currentIndex === index
+                                            ? 'block'
+                                            : 'none',
+                                }">
                                 <div
                                     class="subitem"
                                     v-for="c2 in c1.categoryChild"
@@ -56,12 +65,62 @@
 </template>
 <script>
     import { mapState } from "vuex";
+    //引入lodash(全局引入不提倡)
+    // import _ from "lodash";
+    //按需引入
+    import throttle from "lodash/throttle";
     export default {
         name: "TypeNav",
         data() {
-            return {};
+            return {
+                //一级分类高亮
+                currentIndex: -1,
+                //防抖(自己写的)
+                timer: null,
+                //节流(自己写的)
+                time: null,
+            };
         },
-        methods: {},
+        methods: {
+            //一级分类高亮
+            highLight: throttle(function (index) {
+                console.log(index);
+                this.currentIndex = index;
+            }, 100),
+            /*********************/
+            /* highLight(index) {
+                //防抖(自己写的)
+                if (!this.timer) {
+                    this.timer = setTimeout(function f1() {
+                        this.currentIndex = index;
+                        console.log(this.currentIndex);
+                    }, 1000);
+                } else {
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(function f1() {
+                        this.currentIndex = index;
+                        console.log(this.currentIndex);
+                    }, 1000);
+                }
+                //节流(自己写的)
+                const time1 = Date.now();
+                console.log(time1, "time1");
+                if (!this.time) {
+                    this.currentIndex = index;
+                    this.time = Date.now();
+                    console.log(this.time, "this.time第一次");
+                } else if (time1 - this.time > 100) {
+                    this.currentIndex = index;
+                    this.time = Date.now();
+                    console.log(this.time, "this.time第二次");
+                }
+            }, */
+            /***********************/
+            //事件委派
+            leaveHandler() {
+                this.currentIndex = -1;
+            },
+        },
         computed: {
             ...mapState({
                 //相当于给当前组件vc添加了一个属性list,箭头函数return的是list的属性值
@@ -127,11 +186,15 @@
 
                             a {
                                 color: #333;
+                                text-decoration: none;
+                            }
+                            &.cur {
+                                background: pink;
                             }
                         }
 
                         .item-list {
-                            display: none;
+                            /*display: none;*/
                             position: absolute;
                             width: 734px;
                             min-height: 460px;
@@ -184,11 +247,11 @@
                             }
                         }
 
-                        &:hover {
+                        /*&:hover {
                             .item-list {
                                 display: block;
                             }
-                        }
+                        }*/
                     }
                 }
             }

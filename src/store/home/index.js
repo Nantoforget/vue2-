@@ -8,7 +8,6 @@ const state = {
 const actions = {
     async getCategory({ state, commit, dispatch }) {
         let result = await reqCategory();
-        console.log(result);
         commit("GETCATEGORY", result);
     },
 };
