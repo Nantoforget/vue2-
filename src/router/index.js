@@ -43,6 +43,7 @@ const routers = new VueRouter({
             name: "home",
             path: "/home",
             component: Home,
+            //isShow表示footer组件是否显示
             meta: { isShow: true }, //路由元信息：给当前路由注入一些额外的信息；必须是meta，只可以任意类型
         },
         {

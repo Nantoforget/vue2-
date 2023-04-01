@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h1>我是搜索</h1>
-        <h2>{{ name }}</h2>
-        <h3>{{ c1Id }}</h3>
+        <TypeNav></TypeNav>
     </div>
 </template>
 <script>

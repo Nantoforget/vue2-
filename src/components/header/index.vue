@@ -9,11 +9,11 @@
                         <p>
                             <span>请</span>
                             <!-- <a href="###">登录</a> -->
-                            <router-link to="/Login" title="登录"
+                            <router-link to="/login" title="登录"
                                 >登录</router-link
                             >
                             <router-link
-                                to="/Register"
+                                to="/register"
                                 title="注册"
                                 class="register">
                                 免费注册
@@ -37,7 +37,7 @@
             <div class="bottom">
                 <h1 class="logoArea">
                     <!-- <a class="logo" title="尚品汇" href="###" target="_blank"></a> -->
-                    <router-link to="/Home" title="尚品汇" class="logo">
+                    <router-link to="/home" title="尚品汇" class="logo">
                         <img src="./images/logo.png" alt="" />
                     </router-link>
                 </h1>

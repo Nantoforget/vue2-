@@ -3,7 +3,12 @@
         <!-- 商品分类导航 -->
         <div class="type-nav">
             <div class="container" @mouseleave="leaveHandler">
-                <h2 class="all">全部商品分类</h2>
+                <h2
+                    class="all"
+                    @mouseenter="changeVisit"
+                    @mouseleave="changeVisit"
+                    >全部商品分类</h2
+                >
                 <nav class="nav">
                     <a href="###"> 服装城 </a>
                     <a href="###">美妆馆</a>
@@ -14,69 +19,79 @@
                     <a href="###">有趣</a>
                     <a href="###">秒杀</a>
                 </nav>
-                <div class="sort">
-                    <div class="all-sort-list2" @click.prevent="goSearch">
-                        <!-- 一级分类 -->
-                        <div
-                            class="item"
-                            v-for="(c1, index) in list"
-                            :key="c1.categoryId">
-                            <h3
-                                :class="{ cur: currentIndex === index }"
-                                @mouseenter="highLight(index)">
-                                <!-- data-name是自定义属性，配合事件委派使用的，js中使用dataset来获取自定义属性 -->
-                                <a
-                                    href=""
-                                    :data-name="c1.categoryName"
-                                    :data-id="c1.categoryId"
-                                    data-categoryId="1">
-                                    <!-- @click.prevent=" c1Search(c1.categoryName, c1.categoryId)" -->
-                                    {{ c1.categoryName }}
-                                </a>
-                            </h3>
+                <transition name="sort">
+                    <div
+                        class="sort"
+                        @mouseenter="changeVisit"
+                        @mouseleave="changeVisit"
+                        v-show="visit">
+                        <div class="all-sort-list2" @click.prevent="goSearch">
+                            <!-- 一级分类 -->
                             <div
-                                class="item-list clearfix"
-                                :style="{
-                                    display:
-                                        currentIndex === index
-                                            ? 'block'
-                                            : 'none',
-                                }">
+                                class="item"
+                                v-for="(c1, index) in list"
+                                :key="c1.categoryId">
+                                <h3
+                                    :class="{ cur: currentIndex === index }"
+                                    @mouseenter="highLight(index)">
+                                    <!-- data-name是自定义属性，配合事件委派使用的，js中使用dataset来获取自定义属性 -->
+                                    <a
+                                        href=""
+                                        :data-name="c1.categoryName"
+                                        :data-id="c1.categoryId"
+                                        data-categoryId="1">
+                                        <!-- @click.prevent=" c1Search(c1.categoryName, c1.categoryId)" -->
+                                        {{ c1.categoryName }}
+                                    </a>
+                                </h3>
                                 <div
-                                    class="subitem"
-                                    v-for="c2 in c1.categoryChild"
-                                    :key="c2.categoryId">
-                                    <!-- 二级分类 -->
-                                    <dl class="fore">
-                                        <dt>
-                                            <a
-                                                href=""
-                                                :data-name="c2.categoryName"
-                                                :data-id="c2.categoryId"
-                                                data-categoryId="2"
-                                                >{{ c2.categoryName }}</a
-                                            >
-                                        </dt>
-                                        <dd>
-                                            <!-- 三级分类 -->
-                                            <em
-                                                v-for="c3 in c2.categoryChild"
-                                                :key="c3.categoryId">
+                                    class="item-list clearfix"
+                                    :style="{
+                                        display:
+                                            currentIndex === index
+                                                ? 'block'
+                                                : 'none',
+                                    }">
+                                    <div
+                                        class="subitem"
+                                        v-for="c2 in c1.categoryChild"
+                                        :key="c2.categoryId">
+                                        <!-- 二级分类 -->
+                                        <dl class="fore">
+                                            <dt>
                                                 <a
                                                     href=""
-                                                    :data-name="c3.categoryName"
-                                                    :data-id="c3.categoryId"
-                                                    data-categoryId="3"
-                                                    >{{ c3.categoryName }}</a
+                                                    :data-name="c2.categoryName"
+                                                    :data-id="c2.categoryId"
+                                                    data-categoryId="2"
+                                                    >{{ c2.categoryName }}</a
                                                 >
-                                            </em>
-                                        </dd>
-                                    </dl>
+                                            </dt>
+                                            <dd>
+                                                <!-- 三级分类 -->
+                                                <em
+                                                    v-for="c3 in c2.categoryChild"
+                                                    :key="c3.categoryId">
+                                                    <a
+                                                        href=""
+                                                        :data-name="
+                                                            c3.categoryName
+                                                        "
+                                                        :data-id="c3.categoryId"
+                                                        data-categoryId="3"
+                                                        >{{
+                                                            c3.categoryName
+                                                        }}</a
+                                                    >
+                                                </em>
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition>
             </div>
         </div>
     </div>
@@ -97,6 +112,8 @@
                 timer: null,
                 节流(自己写的)
                 time: null, */
+                //表示分类列表的显示与隐藏
+                visit: true,
             };
         },
         methods: {
@@ -140,8 +157,8 @@
             },
             //分装路由跳转
             routeJump(query) {
-                console.log(typeof query);
-                console.log(query);
+                /* console.log(typeof query);
+                console.log(query); */
                 this.$router.push({
                     name: "search",
                     query: query,
@@ -153,21 +170,25 @@
                 // console.log(event.target.dataset);
                 let { name, id, categoryid } = event.target.dataset;
                 if (categoryid) {
-                    let a = `category${categoryid}Id`;
-                    console.log(a);
                     const query = {
                         categoryName: name,
                         [`category${categoryid}Id`]: id,
                     };
                     this.routeJump(query);
                 }
-                /* this.$router.push({
-                        name: "search",
-                        query: {
-                            categoryName: name,
-                            category1Id: id,
-                        },
-                    }); */
+            },
+            //搜索页面下分类列表隐藏(利用的是路由跳转，组件都会销毁重建，所有可以利用生命周期函数)
+            searchHide() {
+                //有可能带params参数
+                if (this.$route.path != "/home") {
+                    this.visit = false;
+                }
+            },
+            //搜索界面鼠标移入全部商品分类分类列表显示
+            changeVisit() {
+                if (this.$route.path != "/home") {
+                    this.visit = !this.visit;
+                }
             },
         },
         computed: {
@@ -178,7 +199,10 @@
             }),
         },
         mounted() {
+            //提交到home模块的actions
             this.$store.dispatch("home/getCategory");
+            //判断分类列表是否显示
+            this.searchHide();
         },
     };
 </script>
@@ -303,6 +327,15 @@
                         }*/
                     }
                 }
+            }
+            .sort-enter {
+                height: 0;
+            }
+            .sort-enter-active {
+                transition: all 0.5s;
+            }
+            .sort-enter-to {
+                height: 461px;
             }
         }
     }
