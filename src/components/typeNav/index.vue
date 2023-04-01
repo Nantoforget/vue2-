@@ -199,8 +199,6 @@
             }),
         },
         mounted() {
-            //提交到home模块的actions
-            this.$store.dispatch("home/getCategory");
             //判断分类列表是否显示
             this.searchHide();
         },

@@ -20,6 +20,11 @@
         },
         methods: {},
         computed: {},
+        mounted() {
+            //请求次数优化，因为App组件不会被重新创建,所以数据一直存在
+            //提交到home模块的actions
+            this.$store.dispatch("home/getCategory");
+        },
     };
 </script>
 <style scoped></style>
