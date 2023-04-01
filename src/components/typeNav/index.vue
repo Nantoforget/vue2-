@@ -15,7 +15,7 @@
                     <a href="###">秒杀</a>
                 </nav>
                 <div class="sort">
-                    <div class="all-sort-list2">
+                    <div class="all-sort-list2" @click.prevent="goSearch">
                         <!-- 一级分类 -->
                         <div
                             class="item"
@@ -24,7 +24,15 @@
                             <h3
                                 :class="{ cur: currentIndex === index }"
                                 @mouseenter="highLight(index)">
-                                <a href="">{{ c1.categoryName }}</a>
+                                <!-- data-name是自定义属性，配合事件委派使用的，js中使用dataset来获取自定义属性 -->
+                                <a
+                                    href=""
+                                    :data-name="c1.categoryName"
+                                    :data-id="c1.categoryId"
+                                    data-categoryId="1">
+                                    <!-- @click.prevent=" c1Search(c1.categoryName, c1.categoryId)" -->
+                                    {{ c1.categoryName }}
+                                </a>
                             </h3>
                             <div
                                 class="item-list clearfix"
@@ -41,16 +49,26 @@
                                     <!-- 二级分类 -->
                                     <dl class="fore">
                                         <dt>
-                                            <a href="">{{ c2.categoryName }}</a>
+                                            <a
+                                                href=""
+                                                :data-name="c2.categoryName"
+                                                :data-id="c2.categoryId"
+                                                data-categoryId="2"
+                                                >{{ c2.categoryName }}</a
+                                            >
                                         </dt>
                                         <dd>
                                             <!-- 三级分类 -->
                                             <em
                                                 v-for="c3 in c2.categoryChild"
                                                 :key="c3.categoryId">
-                                                <a href="">{{
-                                                    c3.categoryName
-                                                }}</a>
+                                                <a
+                                                    href=""
+                                                    :data-name="c3.categoryName"
+                                                    :data-id="c3.categoryId"
+                                                    data-categoryId="3"
+                                                    >{{ c3.categoryName }}</a
+                                                >
                                             </em>
                                         </dd>
                                     </dl>
@@ -75,16 +93,16 @@
             return {
                 //一级分类高亮
                 currentIndex: -1,
-                //防抖(自己写的)
+                /* 防抖(自己写的)
                 timer: null,
-                //节流(自己写的)
-                time: null,
+                节流(自己写的)
+                time: null, */
             };
         },
         methods: {
             //一级分类高亮
             highLight: throttle(function (index) {
-                console.log(index);
+                // console.log(index);
                 this.currentIndex = index;
             }, 100),
             /*********************/
@@ -116,9 +134,40 @@
                 }
             }, */
             /***********************/
-            //事件委派
+            //一级分类高亮事件委派
             leaveHandler() {
                 this.currentIndex = -1;
+            },
+            //分装路由跳转
+            routeJump(query) {
+                console.log(typeof query);
+                console.log(query);
+                this.$router.push({
+                    name: "search",
+                    query: query,
+                });
+            },
+            //一二三级分类点击搜索事件委派
+            goSearch(event) {
+                //使用dataset来获取自定义属性
+                // console.log(event.target.dataset);
+                let { name, id, categoryid } = event.target.dataset;
+                if (categoryid) {
+                    let a = `category${categoryid}Id`;
+                    console.log(a);
+                    const query = {
+                        categoryName: name,
+                        [`category${categoryid}Id`]: id,
+                    };
+                    this.routeJump(query);
+                }
+                /* this.$router.push({
+                        name: "search",
+                        query: {
+                            categoryName: name,
+                            category1Id: id,
+                        },
+                    }); */
             },
         },
         computed: {

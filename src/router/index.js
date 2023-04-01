@@ -40,16 +40,19 @@ const routers = new VueRouter({
     mode: "hash",
     routes: [
         {
+            name: "home",
             path: "/home",
             component: Home,
             meta: { isShow: true }, //路由元信息：给当前路由注入一些额外的信息；必须是meta，只可以任意类型
         },
         {
+            name: "login",
             path: "/login",
             component: Login,
             meta: { isShow: false },
         },
         {
+            name: "register",
             path: "/register",
             component: Register,
             meta: { isShow: false },
