@@ -5,8 +5,7 @@
         <recommend></recommend>
         <rank></rank>
         <like></like>
-        <floor></floor>
-        <floor></floor>
+        <floor v-for="floor in floors" :key="floor.id" :floor="floor"></floor>
         <brand></brand>
     </div>
 </template>
@@ -17,6 +16,8 @@
     import Like from "./components/like";
     import Floor from "./components/floor";
     import Brand from "./components/brand";
+    //辅助函数
+    import { mapState } from "vuex";
     export default {
         components: { Container, Recommend, Rank, Like, Floor, Brand },
         name: "Home",
@@ -24,7 +25,25 @@
             return {};
         },
         methods: {},
-        computed: {},
+        computed: {
+            //获取vuex中的数据
+            ...mapState({
+                floors: (state) => {
+                    return state.home.floors;
+                },
+            }),
+        },
+        watch: {
+            floors() {
+                this.$nextTick(() => {
+                    return;
+                });
+            },
+        },
+        mounted() {
+            //派发home模块事件，发送请求，获取floor数据
+            this.$store.dispatch("home/getFloors");
+        },
     };
 </script>
 <style scoped lang="less"></style>

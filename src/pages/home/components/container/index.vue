@@ -5,20 +5,14 @@
             <div class="sortList clearfix">
                 <div class="center">
                     <!--banner轮播-->
-                    <div class="swiper-container" id="mySwiper">
+                    <div class="swiper-container" id="mySwiper" ref="swiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="./images/banner1.jpg" />
+                            <div
+                                class="swiper-slide"
+                                v-for="img in banners"
+                                :key="img.id">
+                                <img :src="img.imgUrl" />
                             </div>
-                            <!-- <div class="swiper-slide">
-                                <img src="./images/banner2.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="./images/banner3.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="./images/banner4.jpg" />
-                            </div> -->
                         </div>
                         <!-- 如果需要分页器 -->
                         <div class="swiper-pagination"></div>
@@ -117,13 +111,67 @@
     </div>
 </template>
 <script>
+    //引入辅助函数
+    import { mapState } from "vuex";
+    //引入swiper
+    import Swiper from "swiper";
+
     export default {
         name: "Container",
         data() {
             return {};
         },
         methods: {},
-        computed: {},
+        computed: {
+            ...mapState({
+                banners: (state) => {
+                    return state.home.banners;
+                },
+            }),
+        },
+        watch: {
+            banners() {
+                //监听banners数组的变化
+                //使用nextTick来确保轮播图的节点已经渲染成功
+                this.$nextTick(() => {
+                    //swiper配置
+                    let mySwiper = new Swiper(this.$refs.swiper, {
+                        direction: "horizontal", //横向切换选项
+                        loop: true, // 循环模式选项
+
+                        // 如果需要分页器
+                        pagination: {
+                            el: ".swiper-pagination",
+                        },
+
+                        // 如果需要前进后退按钮
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+
+                        // 如果需要滚动条
+                        scrollbar: {
+                            el: ".swiper-scrollbar",
+                        },
+                        //自动切换
+                        autoplay: true,
+                    });
+                    //鼠标移入停止
+                    mySwiper.el.onmouseover = function () {
+                        mySwiper.autoplay.stop();
+                    };
+                    //鼠标移出开始
+                    mySwiper.el.onmouseover = function () {
+                        mySwiper.autoplay.start();
+                    };
+                });
+            },
+        },
+        mounted() {
+            //派发vuex中home模块actions的getBanner
+            this.$store.dispatch("home/getBanner");
+        },
     };
 </script>
 <style lang="less" scoped>

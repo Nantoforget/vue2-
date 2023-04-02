@@ -1,29 +1,25 @@
+//模拟数据的请求(在浏览器的Network中看不到)
 import axios from "axios";
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
-//自定义axios实例
-const requests = axios.create({
-    baseURL: "/api",
+
+const mockRequests = axios.create({
+    baseURL: "/mock",
     timeout: 5000,
 });
 //请求拦截器
-requests.interceptors.request.use(
+mockRequests.interceptors.request.use(
     (config) => {
-        //开始请求条
         nProgress.start();
         return config;
     },
     (err) => {
-        if (err.code == "ERR_NETWORK") {
-            alert("存在跨域问题");
-        }
         return new Promise.reject(err);
     }
 );
 //响应拦截器
-requests.interceptors.response.use(
+mockRequests.interceptors.response.use(
     (res) => {
-        //结束请求条
         nProgress.done();
         return res.data;
     },
@@ -31,4 +27,5 @@ requests.interceptors.response.use(
         return new Promise.reject(err);
     }
 );
-export default requests;
+//暴露
+export default mockRequests;
