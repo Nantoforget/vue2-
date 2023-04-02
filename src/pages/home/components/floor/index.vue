@@ -34,7 +34,10 @@
                                 <img :src="floor.imgUrl" />
                             </div>
                             <div class="floorBanner">
-                                <div class="swiper-container" id="floor1Swiper">
+                                <div
+                                    class="swiper-container"
+                                    id="floor1Swiper"
+                                    ref="swiper">
                                     <div class="swiper-wrapper">
                                         <div
                                             class="swiper-slide"
@@ -80,6 +83,8 @@
     </div>
 </template>
 <script>
+    import Swiper from "swiper";
+    import "swiper/css/swiper.min.css";
     export default {
         name: "Floor",
         props: ["floor"],
@@ -91,6 +96,47 @@
         },
         methods: {},
         computed: {},
+        watch: {
+            //从父组件传递来的floor没有变化，所有要立即监听
+            floor: {
+                immediate: true,
+                handler() {
+                    this.$nextTick(() => {
+                        //swiper配置
+                        let mySwiper = new Swiper(this.$refs.swiper, {
+                            direction: "horizontal", //横向切换选项
+                            loop: true, // 循环模式选项
+
+                            // 如果需要分页器
+                            pagination: {
+                                el: ".swiper-pagination",
+                            },
+
+                            // 如果需要前进后退按钮
+                            navigation: {
+                                nextEl: ".swiper-button-next",
+                                prevEl: ".swiper-button-prev",
+                            },
+
+                            // 如果需要滚动条
+                            scrollbar: {
+                                el: ".swiper-scrollbar",
+                            },
+                            //自动切换
+                            autoplay: true,
+                        });
+                        //鼠标移入停止
+                        mySwiper.el.onmouseover = function () {
+                            mySwiper.autoplay.stop();
+                        };
+                        //鼠标移出开始
+                        mySwiper.el.onmouseover = function () {
+                            mySwiper.autoplay.start();
+                        };
+                    });
+                },
+            },
+        },
         mounted() {
             this.recommendList1 = this.floor.recommendList.splice(0, 2);
             this.recommendList2 = this.floor.recommendList;

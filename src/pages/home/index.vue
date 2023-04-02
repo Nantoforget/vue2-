@@ -33,13 +33,6 @@
                 },
             }),
         },
-        watch: {
-            floors() {
-                this.$nextTick(() => {
-                    return;
-                });
-            },
-        },
         mounted() {
             //派发home模块事件，发送请求，获取floor数据
             this.$store.dispatch("home/getFloors");
