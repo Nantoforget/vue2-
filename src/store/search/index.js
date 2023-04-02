@@ -1,8 +1,13 @@
 //search模块的小仓库---state,actions,mutations,getters
 //存储数据
-const state = {};
+const state = {
+    //
+};
 //异步
-const actions = {};
+const actions = {
+    //搜索请求
+    getSearch() {},
+};
 //修改数据
 const mutations = {};
 //计算属性
