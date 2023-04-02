@@ -34,17 +34,24 @@
         },
         methods: {
             //搜索请求函数
-            getSearchList(params) {
-                // console.log(params);
+            getSearchList() {
+                // console.log(this.$route);
                 this.$store.dispatch("search/getSearch");
             },
         },
         computed: {},
+        watch: {
+            //监视路由的变化
+            $route: {
+                handler() {
+                    this.getSearchList();
+                },
+            },
+        },
         mounted() {
             this.name = this.$route.query.categoryName;
             this.c1Id = this.$route.query.category1Id;
-            // console.log(this.$route);
-            this.getSearchList(this.$route);
+            this.getSearchList();
         },
     };
 </script>

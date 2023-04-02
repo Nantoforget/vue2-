@@ -6,7 +6,7 @@ const state = {
 //异步
 const actions = {
     //搜索请求
-    getSearch() {},
+    getSearch({ state, commit, dispatch }) {},
 };
 //修改数据
 const mutations = {};

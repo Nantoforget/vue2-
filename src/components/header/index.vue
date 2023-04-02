@@ -80,16 +80,22 @@
                                     2.params(需要在配置路由时占位)
                                         /k=val/k=val
                  */
+                //判断是否有query参数
+                let query = {};
+                if (this.$route.query.categoryName) {
+                    query = this.$route.query;
+                }
                 this.$router.push({
                     //params参数不能与path一起用
                     name: "search",
                     params: {
-                        /* 
+                        /*
                             如果keyword为空字符串时，跳转会出现路径问题(http://127.0.0.1:8080/#/,控制台会出现警告信息)
                             所有要进行判断，当关键字为空时，重新赋值给undefined
                          */
                         keyword: this.keyword || undefined,
                     },
+                    query: query,
                 });
                 this.keyword = null;
             },

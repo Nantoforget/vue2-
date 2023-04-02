@@ -155,15 +155,6 @@
             leaveHandler() {
                 this.currentIndex = -1;
             },
-            //分装路由跳转
-            routeJump(query) {
-                /* console.log(typeof query);
-                console.log(query); */
-                this.$router.push({
-                    name: "search",
-                    query: query,
-                });
-            },
             //一二三级分类点击搜索事件委派
             goSearch(event) {
                 //使用dataset来获取自定义属性
@@ -176,6 +167,21 @@
                     };
                     this.routeJump(query);
                 }
+            },
+            //分装路由跳转功能
+            routeJump(query) {
+                /* console.log(typeof query);
+                console.log(query); */
+                //判断是否含有params参数
+                let params = {};
+                if (this.$route.params.keyword) {
+                    params = this.$route.params;
+                }
+                this.$router.push({
+                    name: "search",
+                    query: query,
+                    params: params,
+                });
             },
             //搜索页面下分类列表隐藏(利用的是路由跳转，组件都会销毁重建，所有可以利用生命周期函数)
             searchHide() {
