@@ -24,7 +24,12 @@ const actions = {
     },
     //保存选中的属性
     addProps({ state, dispatch, commit }, val) {
-        commit("ADDPROPS", val);
+        let a = state.props.find((ele) => {
+            return ele == val;
+        });
+        if (!a) {
+            commit("ADDPROPS", val);
+        }
     },
     //保存选中的属性的名称
     addProp({ state, commit, dispatch }, val) {

@@ -83,9 +83,6 @@
                         );
                     }
                 } else {
-                    // console.log(this.prop);
-                    // console.log(attr);
-                    // this.attribute.splice(index, 1);
                     this.$store.dispatch("search/removePropOrTrademark", attr);
                 }
             },
