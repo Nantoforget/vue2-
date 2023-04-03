@@ -14,7 +14,7 @@ Vue.component(Footer.name, Footer);
 Vue.component(Header.name, Header);
 Vue.component(TypeNav.name, TypeNav);
 
-//引入mockServe.js文件
+//引入mockServe.js文件,目的是让它运行
 import "@/mock/mockServe";
 //引入swiper样式文件
 import "swiper/css/swiper.css";

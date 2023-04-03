@@ -7,22 +7,104 @@
                 </li>
             </ul>
             <ul class="fl sui-tag">
-                <li class="with-x">手机</li>
-                <li class="with-x">iphone<i>×</i></li>
-                <li class="with-x">华为<i>×</i></li>
-                <li class="with-x">OPPO<i>×</i></li>
+                <li
+                    class="with-x"
+                    v-for="(attr, index) in attribute"
+                    :key="index"
+                    >{{ attr }}
+                    <i @click="remove(index)">×</i>
+                </li>
             </ul>
         </div>
     </div>
 </template>
 <script>
+    import { mapState } from "vuex";
     export default {
         name: "Bread",
         data() {
-            return {};
+            return {
+                attribute: [],
+            };
         },
-        methods: {},
-        computed: {},
+        methods: {
+            //将选中的属性添加到attribute
+            getAttribute() {
+                //当执行这个函数时，将保存属性的重置
+                this.attribute = [];
+                if (this.$route.query.categoryName) {
+                    this.attribute.push(this.$route.query.categoryName);
+                }
+                if (this.$route.params.keyword) {
+                    this.attribute.push(this.$route.params.keyword);
+                }
+                this.attribute.push(...this.trademark);
+                this.attribute.push(...this.prop);
+            },
+            //点击×删除属性并重新发请求
+            remove(index) {
+                if (index == 0) {
+                    if (this.$route.query.categoryName) {
+                        const query = {};
+                        this.$router.push({
+                            name: "search",
+                            query: query,
+                            params: this.$route.params,
+                        });
+                    } else if (this.$route.params.keyword) {
+                        const params = {
+                            keyword: "",
+                        };
+                        this.$router.push({
+                            name: "search",
+                            query: this.$route.query,
+                            params: params,
+                        });
+                    } else {
+                        this.attribute.splice(index, 1);
+                        // this.$store.dispatch("removeProp");
+                    }
+                } else if (index == 1) {
+                    if (this.$route.params.keyword) {
+                        const params = {
+                            keyword: "",
+                        };
+                        this.$router.push({
+                            name: "search",
+                            query: this.$route.query,
+                            params: params,
+                        });
+                    } else {
+                        this.attribute.splice(index, 1);
+                    }
+                } else {
+                    this.attribute.splice(index, 1);
+                }
+            },
+        },
+        computed: {
+            ...mapState("search", ["prop", "trademark"]),
+        },
+        watch: {
+            $route: {
+                handler() {
+                    this.getAttribute();
+                },
+            },
+            prop: {
+                handler() {
+                    this.getAttribute();
+                },
+            },
+            trademark: {
+                handler() {
+                    this.getAttribute();
+                },
+            },
+        },
+        mounted() {
+            this.getAttribute();
+        },
     };
 </script>
 <style lang="less" scoped>

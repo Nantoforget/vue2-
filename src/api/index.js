@@ -12,6 +12,14 @@ export const reqCategory = () => {
         method: "get",
     });
 };
+//搜素请求的接口
+export const reqSearchList = (searchObj) => {
+    return request({
+        url: "/list",
+        method: "post",
+        data: searchObj,
+    });
+};
 
 //模拟接口
 //首页轮播图

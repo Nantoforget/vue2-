@@ -5,24 +5,12 @@
                 <div class="fl key brand">品牌</div>
                 <div class="value logos">
                     <ul class="logo-list">
-                        <li>索尼（SONY）</li>
-                        <li>TCL</li>
-                        <li>长虹（CHANGHONG）</li>
-                        <li>飞利浦（PHILIPS）</li>
-                        <li>风行电视</li>
-                        <li><img src="./images/phone06.png" /></li>
-                        <li><img src="./images/phone07.png" /></li>
-                        <li><img src="./images/phone08.png" /></li>
-                        <li><img src="./images/phone09.png" /></li>
-                        <li><img src="./images/phone10.png" /></li>
-                        <li><img src="./images/phone11.png" /></li>
-                        <li><img src="./images/phone12.png" /></li>
-                        <li><img src="./images/phone12.png" /></li>
-                        <li><img src="./images/phone14.png" /></li>
-                        <li><img src="./images/phone01.png" /></li>
-                        <li><img src="./images/phone06.png" /></li>
-                        <li><img src="./images/phone07.png" /></li>
-                        <li><img src="./images/phone02.png" /></li>
+                        <li
+                            @click="getTmList(tm.tmId, tm.tmName)"
+                            v-for="tm in trademarkList"
+                            :key="tm.tmId"
+                            >{{ tm.tmName }}</li
+                        >
                     </ul>
                 </div>
                 <div class="ext">
@@ -30,141 +18,64 @@
                     <a href="javascript:void(0);">更多</a>
                 </div>
             </div>
-            <div class="type-wrap">
-                <div class="fl key">网络制式</div>
+            <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId">
+                <!-- 属性名 -->
+                <div class="fl key">{{ attr.attrName }}</div>
                 <div class="fl value">
                     <ul class="type-list">
-                        <li>
-                            <a>GSM（移动/联通2G）</a>
-                        </li>
-                        <li>
-                            <a>电信2G</a>
-                        </li>
-                        <li>
-                            <a>电信3G</a>
-                        </li>
-                        <li>
-                            <a>移动3G</a>
-                        </li>
-                        <li>
-                            <a>联通3G</a>
-                        </li>
-                        <li>
-                            <a>联通4G</a>
-                        </li>
-                        <li>
-                            <a>电信3G</a>
-                        </li>
-                        <li>
-                            <a>移动3G</a>
-                        </li>
-                        <li>
-                            <a>联通3G</a>
-                        </li>
-                        <li>
-                            <a>联通4G</a>
+                        <li
+                            v-for="(val, index) in attr.attrValueList"
+                            :key="index">
+                            <!-- 属性值 -->
+                            <a @click="addAttr(attr, val)">{{ val }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">显示屏尺寸</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>4.0-4.9英寸</a>
-                        </li>
-                        <li>
-                            <a>4.0-4.9英寸</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">摄像头像素</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>1200万以上</a>
-                        </li>
-                        <li>
-                            <a>800-1199万</a>
-                        </li>
-                        <li>
-                            <a>1200-1599万</a>
-                        </li>
-                        <li>
-                            <a>1600万以上</a>
-                        </li>
-                        <li>
-                            <a>无摄像头</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">价格</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>0-500元</a>
-                        </li>
-                        <li>
-                            <a>500-1000元</a>
-                        </li>
-                        <li>
-                            <a>1000-1500元</a>
-                        </li>
-                        <li>
-                            <a>1500-2000元</a>
-                        </li>
-                        <li>
-                            <a>2000-3000元 </a>
-                        </li>
-                        <li>
-                            <a>3000元以上</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"> </div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">更多筛选项</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>特点</a>
-                        </li>
-                        <li>
-                            <a>系统</a>
-                        </li>
-                        <li>
-                            <a>手机内存 </a>
-                        </li>
-                        <li>
-                            <a>单卡双卡</a>
-                        </li>
-                        <li>
-                            <a>其他</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"> </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import { mapState } from "vuex";
     export default {
         name: "SearchSelector",
         data() {
             return {};
         },
-        methods: {},
-        computed: {},
+        methods: {
+            //点击品牌重新发请求
+            getTmList(id, name) {
+                //整合数据
+                let obj = { id: id, name: name };
+                //派发vuex中search模块的事件
+                this.$store.dispatch("search/addTrademark", obj);
+                //全局总线自定义事件
+                this.$bus.$emit("addTrademark");
+            },
+            //点击添加属性
+            addAttr(attr, val) {
+                //整合数据
+                let string = `${attr.attrId}:${val}:${attr.attrName}`;
+                //派发vuex中search模块的事件
+                this.$store.dispatch("search/addProps", string);
+                //全局总线自定义事件
+                this.$bus.$emit("props");
+                //保存属性的名称
+                this.$store.dispatch("search/addProp", val);
+            },
+        },
+        computed: {
+            ...mapState({
+                trademarkList: (state) => {
+                    return state.search.searchList.trademarkList;
+                },
+                attrsList: (state) => {
+                    return state.search.searchList.attrsList;
+                },
+                props: (state) => state.search.props,
+            }),
+        },
     };
 </script>
 <style lang="less" scoped>
