@@ -44,6 +44,20 @@ const actions = {
             commit("ADDTRADEMARK", obj);
         }
     },
+    //删除属性或品牌
+    removePropOrTrademark({ state, commit, dispatch }, attr) {
+        let a = state.trademark.findIndex((ele) => {
+            return ele == attr;
+        });
+        if (a == -1) {
+            let b = state.prop.findIndex((ele) => {
+                return ele == attr;
+            });
+            commit("REMOVEP", b);
+        } else {
+            commit("REMOVET", a);
+        }
+    },
 };
 //修改数据
 const mutations = {
@@ -66,6 +80,15 @@ const mutations = {
         if (state.trademark[0] != obj.name) {
             state.trademark.push(obj.name);
         }
+    },
+    //删除已选择的属性或品牌
+    REMOVEP(state, index) {
+        state.prop.splice(index, 1);
+        state.props.splice(index, 1);
+    },
+    REMOVET(state, index) {
+        state.trademark.splice(index, 1);
+        state.trademarks = "";
     },
 };
 //计算属性

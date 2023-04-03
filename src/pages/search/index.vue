@@ -76,7 +76,21 @@
             $route: {
                 handler() {
                     //路由变化，将query参数和params参数都作为参数发送请求
-                    this.getSearchList(this.searchDate);
+                    this.getSearchList();
+                },
+            },
+            //监听属性变化
+            props: {
+                handler() {
+                    //属性变化，重新发请求
+                    this.getSearchList();
+                },
+            },
+            //监听品牌变化
+            trademarks: {
+                handler() {
+                    //品牌变化重新请求
+                    this.getSearchList();
                 },
             },
         },

@@ -12,7 +12,7 @@
                     v-for="(attr, index) in attribute"
                     :key="index"
                     >{{ attr }}
-                    <i @click="remove(index)">×</i>
+                    <i @click="remove(attr, index)">×</i>
                 </li>
             </ul>
         </div>
@@ -24,7 +24,7 @@
         name: "Bread",
         data() {
             return {
-                attribute: [],
+                attribute: null,
             };
         },
         methods: {
@@ -41,44 +41,52 @@
                 this.attribute.push(...this.trademark);
                 this.attribute.push(...this.prop);
             },
+            //路由跳转的方法
+            routeQuery() {
+                const query = {};
+                this.$router.push({
+                    name: "search",
+                    query: query,
+                    params: this.$route.params,
+                });
+            },
+            routeParams() {
+                const params = { keyword: undefined };
+                this.$router.push({
+                    name: "search",
+                    query: this.$route.query,
+                    params: params,
+                });
+            },
             //点击×删除属性并重新发请求
-            remove(index) {
+            remove(attr, index) {
                 if (index == 0) {
                     if (this.$route.query.categoryName) {
-                        const query = {};
-                        this.$router.push({
-                            name: "search",
-                            query: query,
-                            params: this.$route.params,
-                        });
+                        this.routeQuery();
                     } else if (this.$route.params.keyword) {
-                        const params = {
-                            keyword: "",
-                        };
-                        this.$router.push({
-                            name: "search",
-                            query: this.$route.query,
-                            params: params,
-                        });
+                        this.routeParams();
                     } else {
-                        this.attribute.splice(index, 1);
-                        // this.$store.dispatch("removeProp");
+                        // this.attribute.splice(index, 1);
+                        this.$store.dispatch(
+                            "search/removePropOrTrademark",
+                            attr
+                        );
                     }
                 } else if (index == 1) {
                     if (this.$route.params.keyword) {
-                        const params = {
-                            keyword: "",
-                        };
-                        this.$router.push({
-                            name: "search",
-                            query: this.$route.query,
-                            params: params,
-                        });
+                        this.routeParams();
                     } else {
-                        this.attribute.splice(index, 1);
+                        // this.attribute.splice(index, 1);
+                        this.$store.dispatch(
+                            "search/removePropOrTrademark",
+                            attr
+                        );
                     }
                 } else {
-                    this.attribute.splice(index, 1);
+                    // console.log(this.prop);
+                    // console.log(attr);
+                    // this.attribute.splice(index, 1);
+                    this.$store.dispatch("search/removePropOrTrademark", attr);
                 }
             },
         },

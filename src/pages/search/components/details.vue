@@ -207,7 +207,7 @@
                                 font-weight: 700;
 
                                 i {
-                                    margin-left: -5px;
+                                    margin-left: 5px;
                                 }
                             }
                         }

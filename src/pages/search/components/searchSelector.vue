@@ -73,7 +73,6 @@
                 attrsList: (state) => {
                     return state.search.searchList.attrsList;
                 },
-                props: (state) => state.search.props,
             }),
         },
     };
