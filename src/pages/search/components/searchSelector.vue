@@ -51,7 +51,7 @@
                 //派发vuex中search模块的事件
                 this.$store.dispatch("search/addTrademark", obj);
                 //全局总线自定义事件
-                this.$bus.$emit("addTrademark");
+                // this.$bus.$emit("addTrademark");
             },
             //点击添加属性
             addAttr(attr, val) {
@@ -60,7 +60,7 @@
                 //派发vuex中search模块的事件
                 this.$store.dispatch("search/addProps", string);
                 //全局总线自定义事件
-                this.$bus.$emit("props");
+                // this.$bus.$emit("props");
                 //保存属性的名称
                 this.$store.dispatch("search/addProp", val);
             },

@@ -98,12 +98,12 @@
             //发请求
             this.getSearchList(this.searchDate);
             //利用全局事件总线自定义事件，当点击属性时发送请求
-            this.$bus.$on("props", () => {
+            /* this.$bus.$on("props", () => {
                 this.getSearchList();
-            });
-            this.$bus.$on("addTrademark", () => {
+            }); */
+            /* this.$bus.$on("addTrademark", () => {
                 this.getSearchList();
-            });
+            }); */
         },
     };
 </script>
