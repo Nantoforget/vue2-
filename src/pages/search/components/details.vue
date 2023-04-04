@@ -85,31 +85,59 @@
             </div>
             <div class="fr page">
                 <div class="sui-pagination clearfix">
+                    <!-- <p>start:{{ start }},end:{{ end }}</p> -->
                     <ul>
-                        <li class="prev disabled">
+                        <li
+                            class="prev"
+                            :class="pageNum == 1 ? 'disabled' : ''"
+                            @click.prevent="changePage(pageIndex - 1)">
                             <a href="#">«上一页</a>
                         </li>
-                        <li class="active">
-                            <a href="#">1</a>
+                        <li>
+                            <a
+                                href="#"
+                                v-if="start >= 2"
+                                @click.prevent="changePage(0)"
+                                >1</a
+                            >
+                        </li>
+                        <li class="dotted" v-if="start >= 3"
+                            ><span>...</span></li
+                        >
+                        <li
+                            :class="pageIndex == index ? 'active' : ''"
+                            v-for="(page, index) in totalPages"
+                            v-show="page >= start && page <= end"
+                            :key="index"
+                            @click.prevent="changePage(index)">
+                            <a href="#">{{ page }}</a>
+                        </li>
+                        <li class="dotted" v-if="end <= totalPages - 2">
+                            <span>...</span>
                         </li>
                         <li>
-                            <a href="#">2</a>
+                            <a
+                                href="#"
+                                v-if="end <= totalPages - 1"
+                                @click.prevent="changePage(totalPages - 1)">
+                                {{ totalPages }}
+                            </a>
                         </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li class="dotted"><span>...</span></li>
-                        <li class="next">
+                        <li
+                            class="next"
+                            :class="pageNum == totalPages ? 'disabled' : ''"
+                            @click.prevent="changePage(pageIndex + 1)">
                             <a href="#">下一页»</a>
                         </li>
                     </ul>
-                    <div><span>共10页&nbsp;</span></div>
+                    <div>
+                        <span>共{{ total }}条&nbsp;</span>
+                        <span>
+                            共
+                            {{ totalPages }}
+                            页&nbsp;
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,6 +155,14 @@
                 show2: true,
                 //动态类名
                 order: 1,
+                //中间连续的页码数
+                seriesPage: 5,
+                //前后加减
+                addOrMinus: null,
+                //分页的下标
+                pageIndex: 0,
+                //分页的页数
+                pageNum: 1,
             };
         },
         methods: {
@@ -147,12 +183,27 @@
                     }
                 }
             },
+            //切换页码
+            changePage(index) {
+                if (index < 0) return;
+                if (index > this.totalPages - 1) return;
+                if (this.pageIndex != index) {
+                    this.pageIndex = index;
+                    this.pageNum = index + 1;
+                    this.$bus.$emit("pageNum", this.pageNum);
+                }
+            },
         },
         computed: {
             //辅助函数获取仓库的数据
             // ...mapState("search", ["searchList"]),
             ...mapState({
+                //商品列表
                 goodsList: (state) => state.search.searchList.goodsList,
+                //总条数
+                total: (state) => state.search.searchList.total,
+                //总页数
+                totalPages: (state) => state.search.searchList.totalPages,
             }),
             //辅助函数获取计算属性的数据
             //两种写法
@@ -160,6 +211,51 @@
             /* ...mapGetters({
                 goodsList: "search/goodsList",
             }), */
+            //计算分页器的页数显示
+            //[0,1,2,3,4,5,6,7,8,9,10,11]
+            //[1,2,3,4,5,6,7,8,9,10,11,12]
+            start: {
+                get() {
+                    if (this.totalPages <= 5) {
+                        //如果总条数小于等于5，则开始一直为1
+                        return 1;
+                    } else {
+                        if (this.pageNum <= 3) {
+                            return 1;
+                        } else if (
+                            this.pageNum >= 4 &&
+                            this.pageNum <= this.totalPages - 2
+                        ) {
+                            return this.pageNum - this.addOrMinus;
+                        } else {
+                            return this.totalPages - 4;
+                        }
+                    }
+                },
+            },
+            end: {
+                get() {
+                    if (this.totalPages <= 5) {
+                        return this.totalPages;
+                    } else {
+                        if (this.pageNum <= 3) {
+                            return 5;
+                        } else if (
+                            this.pageNum >= 4 &&
+                            this.pageNum < this.totalPages - 2
+                        ) {
+                            return this.pageNum + this.addOrMinus;
+                        } else {
+                            return this.totalPages;
+                        }
+                    }
+                },
+            },
+        },
+        mounted() {
+            //加减的页数
+            this.addOrMinus = Math.floor(this.seriesPage / 2);
+            //挑出第一页和最后一页
         },
     };
 </script>
@@ -334,7 +430,7 @@
         }
 
         .page {
-            width: 733px;
+            width: 970px;
             height: 66px;
             overflow: hidden;
             float: right;
@@ -346,12 +442,13 @@
                     margin-left: 0;
                     margin-bottom: 0;
                     vertical-align: middle;
-                    width: 490px;
+                    width: 700px;
                     float: left;
 
                     li {
                         line-height: 18px;
                         display: inline-block;
+                        margin: 0 5px;
 
                         a {
                             position: relative;
@@ -368,7 +465,7 @@
 
                         &.active {
                             a {
-                                background-color: #fff;
+                                background-color: rgb(64, 158, 255);
                                 color: #e1251b;
                                 border-color: #fff;
                                 cursor: default;
@@ -416,6 +513,18 @@
                     font-size: 14px;
                     float: right;
                     width: 241px;
+                    background: #fff;
+                    display: flex;
+                    span {
+                        width: 30%;
+                        display: block;
+                        height: 36px;
+                        text-align: center;
+                        line-height: 36px;
+                        margin-right: 20px;
+                        border: 1px solid #e0e9ee;
+                        background: rgb(244, 244, 245);
+                    }
                 }
             }
         }

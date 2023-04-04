@@ -109,6 +109,11 @@
                 this.searchDate.order = order;
                 this.getSearchList();
             });
+            //分页器的页数请求全局事件
+            this.$bus.$on("pageNum", (pageNum) => {
+                this.searchDate.pageNo = pageNum;
+                this.getSearchList();
+            });
         },
     };
 </script>
