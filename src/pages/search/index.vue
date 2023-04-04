@@ -104,6 +104,11 @@
             /* this.$bus.$on("addTrademark", () => {
                 this.getSearchList();
             }); */
+            //综合价格排序的全局事件总线
+            this.$bus.$on("order", (order) => {
+                this.searchDate.order = order;
+                this.getSearchList();
+            });
         },
     };
 </script>

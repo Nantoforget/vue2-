@@ -2,18 +2,35 @@
     <div>
         <!--details-->
         <div class="details clearfix">
+            <!-- 排序 -->
             <div class="sui-navbar">
                 <div class="navbar-inner filter">
                     <ul class="sui-nav">
-                        <li class="active">
-                            <a href="#">综合</a>
+                        <li
+                            :class="order == 1 ? 'active' : ''"
+                            @click.prevent="changeOrder(1)">
+                            <a href="#">
+                                综合
+                                <span v-show="order == 1">
+                                    <span v-if="show1">⬇</span>
+                                    <span v-else>⬆</span>
+                                </span>
+                            </a>
                         </li>
-                        <li>
+                        <li
+                            :class="order == 2 ? 'active' : ''"
+                            @click.prevent="changeOrder(2)">
+                            <a href="#">
+                                价格
+                                <span v-show="order == 2">
+                                    <span v-if="show2">⬇</span>
+                                    <span v-else>⬆</span>
+                                </span>
+                            </a>
+                        </li>
+                        <!--  <li>
                             <a href="#">价格⬆</a>
-                        </li>
-                        <li>
-                            <a href="#">价格⬇</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -103,9 +120,34 @@
     export default {
         name: "Details",
         data() {
-            return {};
+            return {
+                //综合排序
+                show1: true,
+                //价格排序
+                show2: true,
+                //动态类名
+                order: 1,
+            };
         },
-        methods: {},
+        methods: {
+            //综合与价格的切换和箭头上下的切换
+            changeOrder(num) {
+                //切换综合与价格
+                if (this.order != num) {
+                    this.order = num;
+                    this[`show${num}`] = true;
+                    this.$bus.$emit("order", `${num}:desc`);
+                } else {
+                    //切换升序降序
+                    this[`show${num}`] = !this[`show${num}`];
+                    if (this[`show${num}`]) {
+                        this.$bus.$emit("order", `${num}:desc`);
+                    } else {
+                        this.$bus.$emit("order", `${num}:asc`);
+                    }
+                }
+            },
+        },
         computed: {
             //辅助函数获取仓库的数据
             // ...mapState("search", ["searchList"]),
