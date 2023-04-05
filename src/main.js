@@ -10,9 +10,11 @@ import store from "@/store/index";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import TypeNav from "@/components/typeNav";
+import Pagination from "@/components/pagination";
 Vue.component(Footer.name, Footer);
 Vue.component(Header.name, Header);
 Vue.component(TypeNav.name, TypeNav);
+Vue.component(Pagination.name, Pagination);
 
 //引入mockServe.js文件,目的是让它运行
 import "@/mock/mockServe";
