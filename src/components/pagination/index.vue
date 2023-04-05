@@ -25,17 +25,17 @@
             >下一页</button
         >
 
-        <button style="margin-left: 30px">共 {{ pageAll }} 页</button>
-        <button style="margin-left: 30px">共 {{ total }} 条</button>
-        <input type="number" v-model="pageNumber" />
-        <button @click="toPage">跳转</button>
+        <button style="margin-left: 20px">共 {{ pageAll }} 页</button>
+        <button style="margin: 0 20px">共 {{ total }} 条</button>
+        <input type="number" v-model="pageNumber" min="1" :max="pageAll" />
+        <button @click="toPage" style="margin: 0 20px 0 5px">跳转</button>
         <select v-model="pageNumber">
             <option disabled selected>请选择页码数</option>
             <option v-for="(op, index) in pageAll" :key="index" :value="op">
                 {{ op }}
             </option>
         </select>
-        <button @click="toPage">跳转</button>
+        <button @click="toPage" style="margin: 0 20px 0 5px">跳转</button>
     </div>
 </template>
 
@@ -159,6 +159,11 @@
         }
         input {
             height: 22px;
+            width: 100px;
+        }
+        select {
+            height: 26px;
+            width: 100px;
         }
     }
 </style>
