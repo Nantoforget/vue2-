@@ -7,7 +7,7 @@
         <!-- <Footer v-show="$route.meta.isShow"></Footer> -->
         <!--total总条数     pageSize每页显示几条数据  pageNo显示第几页   pager中间连续现实的页数几个 -->
         <Pagination
-            :total="100"
+            :total="1000"
             :pageSize="3"
             :pageNo="6"
             :pager="7"></Pagination>

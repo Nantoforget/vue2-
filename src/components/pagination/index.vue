@@ -27,6 +27,15 @@
 
         <button style="margin-left: 30px">共 {{ pageAll }} 页</button>
         <button style="margin-left: 30px">共 {{ total }} 条</button>
+        <input type="number" v-model="pageNumber" />
+        <button @click="toPage">跳转</button>
+        <select v-model="pageNumber">
+            <option disabled selected>请选择页码数</option>
+            <option v-for="(op, index) in pageAll" :key="index" :value="op">
+                {{ op }}
+            </option>
+        </select>
+        <button @click="toPage">跳转</button>
     </div>
 </template>
 
@@ -41,13 +50,31 @@
                 pageNum: null,
                 //现在的页数start和end该加减多少
                 addOrMinus: null,
+                //输入框，选择框的页码数
+                pageNumber: null,
             };
         },
         methods: {
+            //点击页码跳转
             changePage(page) {
                 if (page < 1) return;
                 if (page > this.pageAll) return;
                 this.pageNum = page;
+                this.pageNumber = page;
+            },
+            //输入页码数进行跳转
+            toPage() {
+                //转换为数字  选择页码跳转
+                this.pageNumber = +this.pageNumber;
+                if (this.pageNumber > this.pageAll) {
+                    this.pageNum = this.pageAll;
+                    this.pageNumber = this.pageAll;
+                } else if (this.pageNumber < 1) {
+                    this.pageNum = 1;
+                    this.pageNumber = 1;
+                } else {
+                    this.pageNum = this.pageNumber;
+                }
             },
         },
         computed: {
@@ -70,7 +97,9 @@
             },
             //这个页码前头后头
             end() {
-                if (this.pageNum <= this.pager - this.addOrMinus) {
+                if (this.pageAll <= this.pager) {
+                    return this.pageAll;
+                } else if (this.pageNum <= this.pager - this.addOrMinus) {
                     return this.pager;
                 } else if (
                     this.pageNum > this.pager - this.addOrMinus &&
@@ -84,9 +113,15 @@
         },
         mounted() {
             //现在是第几页
-            this.pageNum = this.pageNo;
+            if (this.pageNo > this.pageAll) {
+                this.pageNum = 1;
+            } else {
+                this.pageNum = this.pageNo;
+            }
             //现在的页数start和end该加减多少
             this.addOrMinus = Math.floor(this.pager / 2);
+            //输入框选择框初始值为传来的pageNo
+            this.pageNumber = this.pageNo;
         },
     };
 </script>
@@ -121,6 +156,9 @@
                 background-color: #409eff;
                 color: #fff;
             }
+        }
+        input {
+            height: 22px;
         }
     }
 </style>
