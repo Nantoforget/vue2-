@@ -38,9 +38,10 @@
                         class="yui3-u-1-5"
                         v-for="good in goodsList"
                         :key="good.id">
-                        <div class="list-wrap">
+                        <div class="list-wrap"
+                            >+
                             <div class="p-img">
-                                <a href="item.html" target="_blank">
+                                <a href="#" target="_blank">
                                     <img :src="good.defaultImg" />
                                 </a>
                             </div>
