@@ -19,7 +19,7 @@ Vue.component(Pagination.name, Pagination);
 //引入mockServe.js文件,目的是让它运行
 import "@/mock/mockServe";
 //引入swiper样式文件
-import "swiper/css/swiper.css";
+import "swiper/css/swiper.min.css";
 
 new Vue({
     beforeCreate() {

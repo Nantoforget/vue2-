@@ -6,6 +6,7 @@ Vue.use(Vuex);
 import home from "./home";
 import search from "./search";
 import user from "./user";
+import detail from "./detail";
 //最大的仓库
 const stores = new Vuex.Store({
     //注册小仓库
@@ -13,6 +14,7 @@ const stores = new Vuex.Store({
         home,
         search,
         user,
+        detail,
     },
 });
 export default stores;

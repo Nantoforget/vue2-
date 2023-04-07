@@ -41,7 +41,10 @@
                         <div class="list-wrap"
                             >+
                             <div class="p-img">
-                                <a href="#" target="_blank">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    @click.prevent="goDetail(good.id)">
                                     <img :src="good.defaultImg" />
                                 </a>
                             </div>
@@ -193,6 +196,15 @@
                     this.$bus.$emit("pageNum", this.pageNum);
                 }
             }, */
+            //跳转详情页
+            goDetail(skuId) {
+                this.$router.push({
+                    name: "detail",
+                    params: {
+                        skuId,
+                    },
+                });
+            },
         },
         computed: {
             //辅助函数获取仓库的数据

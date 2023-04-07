@@ -6,6 +6,7 @@ import Register from "@/pages/register";
 import Search from "@/pages/search";
 //详情页
 import Detail from "@/pages/Detail";
+import AddCartSuccess from "@/pages/AddCartSuccess";
 export default [
     {
         name: "home",
@@ -53,6 +54,13 @@ export default [
         path: "/detail/:skuId",
         component: Detail,
         meta: { isShow: true }, //路由元信息，判断头尾是否显示
+    },
+    //加入购物车成功
+    {
+        name: "addcartsuccess",
+        path: "/addcartsuccess",
+        component: AddCartSuccess,
+        meta: { isShow: true },
     },
     {
         path: "/",
