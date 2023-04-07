@@ -28,12 +28,10 @@
                                 </span>
                             </a>
                         </li>
-                        <!--  <li>
-                            <a href="#">价格⬆</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
+            <!-- 商品列表 -->
             <div class="goods-list">
                 <ul class="yui3-g">
                     <li
@@ -83,9 +81,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="fr page">
+            <!-- 分页器 -->
+            <!-- <div class="fr page">
                 <div class="sui-pagination clearfix">
-                    <!-- <p>start:{{ start }},end:{{ end }}</p> -->
+                    <p>start:{{ start }},end:{{ end }}</p>
                     <ul>
                         <li
                             class="prev"
@@ -139,7 +138,7 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -156,13 +155,13 @@
                 //动态类名
                 order: 1,
                 //中间连续的页码数
-                seriesPage: 5,
+                // seriesPage: 5,
                 //前后加减
-                addOrMinus: null,
+                // addOrMinus: null,
                 //分页的下标
-                pageIndex: 0,
+                // pageIndex: 0,
                 //分页的页数
-                pageNum: 1,
+                // pageNum: 1,
             };
         },
         methods: {
@@ -184,7 +183,7 @@
                 }
             },
             //切换页码
-            changePage(index) {
+            /*  changePage(index) {
                 if (index < 0) return;
                 if (index > this.totalPages - 1) return;
                 if (this.pageIndex != index) {
@@ -192,7 +191,7 @@
                     this.pageNum = index + 1;
                     this.$bus.$emit("pageNum", this.pageNum);
                 }
-            },
+            }, */
         },
         computed: {
             //辅助函数获取仓库的数据
@@ -201,9 +200,9 @@
                 //商品列表
                 goodsList: (state) => state.search.searchList.goodsList,
                 //总条数
-                total: (state) => state.search.searchList.total,
+                // total: (state) => state.search.searchList.total,
                 //总页数
-                totalPages: (state) => state.search.searchList.totalPages,
+                // totalPages: (state) => state.search.searchList.totalPages,
             }),
             //辅助函数获取计算属性的数据
             //两种写法
@@ -214,7 +213,7 @@
             //计算分页器的页数显示
             //[0,1,2,3,4,5,6,7,8,9,10,11]
             //[1,2,3,4,5,6,7,8,9,10,11,12]
-            start: {
+            /*  start: {
                 get() {
                     if (this.totalPages <= 5) {
                         //如果总条数小于等于5，则开始一直为1
@@ -250,12 +249,11 @@
                         }
                     }
                 },
-            },
+            }, */
         },
         mounted() {
             //加减的页数
-            this.addOrMinus = Math.floor(this.seriesPage / 2);
-            //挑出第一页和最后一页
+            // this.addOrMinus = Math.floor(this.seriesPage / 2);
         },
     };
 </script>

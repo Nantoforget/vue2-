@@ -1,16 +1,16 @@
 <template>
     <div>
-        <!-- <Header></Header> -->
+        <Header></Header>
         <!-- 路由出口 -->
-        <!-- <router-view></router-view> -->
+        <router-view></router-view>
         <!-- Footer有些页面不显示，要判断 -->
-        <!-- <Footer v-show="$route.meta.isShow"></Footer> -->
+        <Footer v-show="$route.meta.isShow"></Footer>
         <!--total总条数     pageSize每页显示几条数据  pageNo显示第几页   pager中间连续现实的页数几个 -->
-        <Pagination
-            :total="1000"
+        <!-- <Pagination
+            :total="55"
             :pageSize="3"
             :pageNo="6"
-            :pager="7"></Pagination>
+            :pager="9"></Pagination> -->
     </div>
 </template>
 <script>
@@ -24,6 +24,11 @@
         data() {
             return {};
         },
+        /* provide: {
+            go(a) {
+                console.log(a);
+            },
+        }, */
         methods: {},
         computed: {},
         mounted() {

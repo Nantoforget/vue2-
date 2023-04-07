@@ -43,7 +43,7 @@
     export default {
         name: "Pagination",
         //       总条数    每页显示 现在是第几页 中间连续的页数个数
-        props: ["total", "pageSize", "pageNo", "pager"],
+        props: ["total", "pager", "pageNo", "pageSize"],
         data() {
             return {
                 //现在是第几页
@@ -61,6 +61,7 @@
                 if (page > this.pageAll) return;
                 this.pageNum = page;
                 this.pageNumber = page;
+                this.$emit("go", this.pageNum);
             },
             //输入页码数进行跳转
             toPage() {
@@ -75,6 +76,8 @@
                 } else {
                     this.pageNum = this.pageNumber;
                 }
+                console.log(this.pageNum);
+                this.$emit("go", this.pageNum);
             },
         },
         computed: {
@@ -115,13 +118,15 @@
             //现在是第几页
             if (this.pageNo > this.pageAll) {
                 this.pageNum = 1;
+                //输入框选择框初始值为传来的pageNo
+                this.pageNumber = 1;
             } else {
                 this.pageNum = this.pageNo;
+                //输入框选择框初始值为传来的pageNo
+                this.pageNumber = this.pageNo;
             }
             //现在的页数start和end该加减多少
             this.addOrMinus = Math.floor(this.pager / 2);
-            //输入框选择框初始值为传来的pageNo
-            this.pageNumber = this.pageNo;
         },
     };
 </script>

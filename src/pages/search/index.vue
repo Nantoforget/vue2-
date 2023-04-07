@@ -9,6 +9,13 @@
                 <SearchSelector />
                 <!-- details -->
                 <Details></Details>
+                <!-- 封装的公共组件分页器 -->
+                <pagination
+                    :total="total"
+                    :pageNo="searchDate.pageNo"
+                    :pager="7"
+                    :pageSize="searchDate.pageSize"
+                    @go="go"></pagination>
             </div>
         </div>
     </div>
@@ -27,6 +34,7 @@
             Details,
             SearchSelector,
         },
+
         data() {
             return {
                 //搜索请求的参数
@@ -48,6 +56,11 @@
             };
         },
         methods: {
+            //分页器请求
+            go(no) {
+                this.searchDate.pageNo = no;
+                this.getSearchList();
+            },
             //路由跳转携带的参数
             argument() {
                 //路由的query参数
@@ -69,7 +82,10 @@
             },
         },
         computed: {
-            ...mapState("search", ["props", "trademarks"]),
+            ...mapState("search", ["props", "trademarks", "searchList"]),
+            ...mapState({
+                total: (state) => state.search.searchList?.total || 1,
+            }),
         },
         watch: {
             //监视路由的变化
@@ -94,7 +110,7 @@
                 },
             },
         },
-        mounted() {
+        created() {
             //发请求
             this.getSearchList(this.searchDate);
             //利用全局事件总线自定义事件，当点击属性时发送请求
