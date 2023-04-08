@@ -34,6 +34,9 @@ export const isCheckedGood = (skuId, isChecked) =>
 export const deleteCartGood = (skuId) =>
     request.delete(`/cart/deleteCart/${skuId}`);
 
+//登录的请求
+export const userLogin = (phone, password) =>
+    request.post("/user/passport/login", { data: { phone, password } });
 //模拟接口
 //首页轮播图
 export const reqBanner = () => {
