@@ -1,7 +1,7 @@
 //真实接口
-import request from "./request.js";
+import request from "@/utils/request.js";
 //模拟接口
-import mockRequest from "./mockRequest.js";
+import mockRequest from "@/utils/mockRequest.js";
 
 //真实接口
 //商品分类的接口

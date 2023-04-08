@@ -17,14 +17,15 @@
                         <p class="attr">
                             机身详情：
                             {{ skuInfo.skuDesc }}
-                            颜色：
-                            {{
-                                ((skuInfo.skuSaleAttrValueList || [])[0] || {})
-                                    .saleAttrValueName
-                            }}
-                            数量：
-                            {{ this.$route.query.skuNum }}
                         </p>
+                        <span
+                            style="margin-right: 10px"
+                            v-for="val in spuValue"
+                            :key="val.id">
+                            {{ val.saleAttrName }}：
+                            {{ val.saleAttrValueName }}
+                        </span>
+                        <p>数量： {{ this.$route.query.skuNum }}</p>
                     </div>
                 </div>
                 <div class="right-gocart">
@@ -50,11 +51,14 @@
             return {
                 //存储商品页面
                 skuInfo: {},
+                //商品属性值
+                spuValue: [],
             };
         },
         methods: {
             //查看商品详情
             goDetail() {
+                //路由跳转
                 this.$router.push({
                     name: "detail",
                     params: {
@@ -72,8 +76,10 @@
         },
         mounted() {
             //利用会话存储来在成功添加购物车页面显示信息
+            //商品信息
             this.skuInfo = JSON.parse(sessionStorage.getItem("SKU"));
-            // console.log(this.skuInfo);
+            //商品属性值
+            this.spuValue = JSON.parse(sessionStorage.getItem("SPUSAL"));
         },
     };
 </script>

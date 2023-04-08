@@ -4,8 +4,6 @@ import { getDetailList, addOrUpdateCart, getCartList } from "@/api";
 const state = {
     //详情页数据
     detailList: {},
-    //购物车数据
-    cartList: [],
 };
 //异步
 const actions = {
@@ -26,23 +24,12 @@ const actions = {
             return Promise.reject();
         }
     },
-    //获取购物车列表
-    async getCartList({ state, commit, dispatch }) {
-        let result = await getCartList();
-        if (result.code == 200) {
-            commit("GETCARTLIST", result.data);
-        }
-    },
 };
 //修改数据
 const mutations = {
     //详情页请求回来的数据
     GETDETAILLIST(state, data) {
         state.detailList = data;
-    },
-    //获取购物车列表
-    GETCARTLIST(state, data) {
-        state.cartList = data;
     },
 };
 //计算属性

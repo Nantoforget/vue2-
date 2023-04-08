@@ -46,9 +46,9 @@
                             </div>
                             <div class="priceArea2">
                                 <div class="title">
-                                    <i
-                                        >促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</i
-                                    >
+                                    <i>
+                                        促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销
+                                    </i>
                                 </div>
                                 <div class="fixWidth">
                                     <i class="red-bg">加价购</i>
@@ -457,6 +457,13 @@
                     });
                     //利用会话存储来在成功添加购物车页面显示信息
                     sessionStorage.setItem("SKU", JSON.stringify(this.skuInfo));
+                    //找到选中的属性值
+                    const val = this.spuSaleAttrList.map((item) => {
+                        return item.spuSaleAttrValueList.find((val) => {
+                            return val.isChecked == 1;
+                        });
+                    });
+                    sessionStorage.setItem("SPUSAL", JSON.stringify(val));
                 } catch (error) {
                     alert("加入购物车失败");
                 }
