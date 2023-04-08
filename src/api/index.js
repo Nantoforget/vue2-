@@ -27,6 +27,12 @@ export const addOrUpdateCart = (skuId, skuNum) =>
     request.post(`/cart/addToCart/${skuId}/${skuNum}`);
 //获取购物车列表
 export const getCartList = () => request.get("/cart/cartList");
+//切换商品选中状态
+export const isCheckedGood = (skuId, isChecked) =>
+    request.get(`/cart/checkCart/${skuId}/${isChecked}`);
+//删除购物车商品
+export const deleteCartGood = (skuId) =>
+    request.delete(`/cart/deleteCart/${skuId}`);
 
 //模拟接口
 //首页轮播图

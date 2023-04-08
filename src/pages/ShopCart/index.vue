@@ -17,7 +17,8 @@
                         <input
                             type="checkbox"
                             name="chk_list"
-                            :checked="good.isChecked == 1" />
+                            :checked="good.isChecked == 1"
+                            @click="changeIsChecked(good)" />
                     </li>
                     <li class="cart-list-con2">
                         <img :src="good.imgUrl" />
@@ -31,7 +32,7 @@
                     <li class="cart-list-con5">
                         <a
                             href="javascript:void(0)"
-                            @click="
+                            @click.prevent="
                                 addOrMinus('minus', good.skuId, good.skuNum)
                             "
                             class="mins">
@@ -46,7 +47,9 @@
                             @input="changeGoodNum(good, $event)" />
                         <a
                             href="javascript:void(0)"
-                            @click="addOrMinus('add', good.skuId, good.skuNum)"
+                            @click.prevent="
+                                addOrMinus('add', good.skuId, good.skuNum)
+                            "
                             class="plus">
                             +
                         </a>
@@ -57,7 +60,12 @@
                         </span>
                     </li>
                     <li class="cart-list-con7">
-                        <a href="#none" class="sindelet">删除</a>
+                        <a
+                            href="#none"
+                            @click.prevent="deleteCartGoods(good.skuId)"
+                            class="sindelet">
+                            删除
+                        </a>
                         <br />
                         <a href="#none">移到收藏</a>
                     </li>
@@ -66,11 +74,15 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input class="chooseAll" type="checkbox" />
+                <input
+                    class="chooseAll"
+                    type="checkbox"
+                    :checked="isCheckAll"
+                    @change="checkAll" />
                 <span>全选</span>
             </div>
             <div class="option">
-                <a href="#none">删除选中的商品</a>
+                <a href="#none" @click.prevent="deleteAll">删除选中的商品</a>
                 <a href="#none">移到我的关注</a>
                 <a href="#none">清除下架商品</a>
             </div>
@@ -102,12 +114,13 @@
                 timer: null,
                 //节流
                 t: null,
+                //是否该全选
             };
         },
         methods: {
             //发送请求，获取购物车数据
-            getCartList() {
-                this.$store.dispatch("shopcart/getCartList");
+            async getCartList() {
+                await this.$store.dispatch("shopcart/getCartList");
             },
             //修改商品的请求
             addOrUpdateCart(skuId, skuNum) {
@@ -164,6 +177,60 @@
                     alert("修改失败");
                 }
             }, 500),
+            //切换商品选中状态
+            async changeIsChecked(good) {
+                const skuId = good.skuId;
+                const isChecked = +!good.isChecked;
+                try {
+                    //派发vuex的actions的回调，发送请求
+                    await this.$store.dispatch("shopcart/changeIsChecked", {
+                        skuId,
+                        isChecked,
+                    });
+                    this.getCartList();
+                } catch (error) {
+                    alert("修改失败");
+                }
+            },
+            //全选状态
+            async checkAll(event) {
+                try {
+                    await this.$store.dispatch(
+                        "shopcart/checkAll",
+                        event.target.checked
+                    );
+                    this.getCartList();
+                } catch (error) {
+                    alert("操作失败");
+                }
+            },
+            //删除购物车商品
+            async deleteCartGoods(skuId) {
+                try {
+                    if (confirm("确定要删除吗？")) {
+                        //派发vuex的actions的回调，发送请求
+                        await this.$store.dispatch(
+                            "shopcart/deleteCartGoods",
+                            skuId
+                        );
+                        this.getCartList();
+                    }
+                } catch (error) {
+                    alert("删除失败");
+                }
+            },
+            //删除选中的商品
+            async deleteAll() {
+                try {
+                    if (confirm("确定删除吗？")) {
+                        //vuex的actions
+                        await this.$store.dispatch("shopcart/deleteGoods");
+                        this.getCartList();
+                    }
+                } catch (error) {
+                    alert("删除出现错误");
+                }
+            },
         },
         mounted() {
             this.getCartList();
@@ -185,6 +252,18 @@
                     return pre + next.skuNum;
                 }, val);
                 return sum;
+            },
+            //全选true还是false
+            isCheckAll() {
+                if (this.goods.length < 1) return false;
+                const checked = this.goods.findIndex((good) => {
+                    return good.isChecked == 0;
+                });
+                if (checked == -1) {
+                    return true;
+                } else {
+                    return false;
+                }
             },
         },
     };
