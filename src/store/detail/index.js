@@ -1,9 +1,11 @@
-import { getDetailList, addOrUpdateCart } from "@/api";
+import { getDetailList, addOrUpdateCart, getCartList } from "@/api";
 //detail模块的小仓库---state,actions,mutations,getters
 //存储数据
 const state = {
     //详情页数据
     detailList: {},
+    //购物车数据
+    cartList: [],
 };
 //异步
 const actions = {
@@ -18,6 +20,18 @@ const actions = {
     async addOrUpdateCart({ state, commit, dispatch }, obj) {
         const { skuId, skuNum } = obj;
         let result = await addOrUpdateCart(skuId, skuNum);
+        if (result.code == 200) {
+            return "ok";
+        } else {
+            return Promise.reject();
+        }
+    },
+    //获取购物车列表
+    async getCartList({ state, commit, dispatch }) {
+        let result = await getCartList();
+        if (result.code == 200) {
+            commit("GETCARTLIST", result.data);
+        }
     },
 };
 //修改数据
@@ -25,6 +39,10 @@ const mutations = {
     //详情页请求回来的数据
     GETDETAILLIST(state, data) {
         state.detailList = data;
+    },
+    //获取购物车列表
+    GETCARTLIST(state, data) {
+        state.cartList = data;
     },
 };
 //计算属性

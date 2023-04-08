@@ -7,6 +7,7 @@ import home from "./home";
 import search from "./search";
 import user from "./user";
 import detail from "./detail";
+import shopcart from "./shopcart";
 //最大的仓库
 const stores = new Vuex.Store({
     //注册小仓库
@@ -15,6 +16,7 @@ const stores = new Vuex.Store({
         search,
         user,
         detail,
+        shopcart,
     },
 });
 export default stores;

@@ -440,19 +440,26 @@
                 }
             },
             //点击购物车跳转
-            goAddCartSuccess() {
+            async goAddCartSuccess() {
                 //向vuex派送,在vuex发请求
-                this.$store.dispatch("detail/addOrUpdateCart", {
-                    skuId: this.$route.params.skuId,
-                    skuNum: this.spuNum,
-                });
-                //路由跳转
-                /* this.$router.push({
-                    name: "addcartsuccess",
-                    query: {
+                try {
+                    //利用promise来判断加入购物车是否成功
+                    await this.$store.dispatch("detail/addOrUpdateCart", {
+                        skuId: this.$route.params.skuId,
                         skuNum: this.spuNum,
-                    },
-                }); */
+                    });
+                    //路由跳转
+                    this.$router.push({
+                        name: "addcartsuccess",
+                        query: {
+                            skuNum: this.spuNum,
+                        },
+                    });
+                    //利用会话存储来在成功添加购物车页面显示信息
+                    sessionStorage.setItem("SKU", JSON.stringify(this.skuInfo));
+                } catch (error) {
+                    alert("加入购物车失败");
+                }
             },
         },
         mounted() {

@@ -7,6 +7,7 @@ import Search from "@/pages/search";
 //详情页
 import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
+import ShopCart from "@/pages/ShopCart";
 export default [
     {
         name: "home",
@@ -60,6 +61,13 @@ export default [
         name: "addcartsuccess",
         path: "/addcartsuccess",
         component: AddCartSuccess,
+        meta: { isShow: true },
+    },
+    {
+        //购物车路由
+        name: "shopcart",
+        path: "/shopcart",
+        component: ShopCart,
         meta: { isShow: true },
     },
     {
