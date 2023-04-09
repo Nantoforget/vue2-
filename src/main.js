@@ -23,9 +23,16 @@ import "swiper/css/swiper.min.css";
 
 //引入路由守卫文件
 import "@/permission";
+
+//将所用的api请求函数挂载到vue.prototype上
+import * as API from "@/api";
+
 new Vue({
     beforeCreate() {
+        //全局事件总线
         Vue.prototype.$bus = this;
+        //把全部请求函数[API对象：包含所用的请求函数]挂到原型上
+        Vue.prototype.$ajax = API;
     },
     router,
     store,

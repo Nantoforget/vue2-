@@ -14,11 +14,7 @@
             <div class="cart-body">
                 <ul class="cart-list" v-for="good in goods" :key="good.id">
                     <li class="cart-list-con1">
-                        <input
-                            type="checkbox"
-                            name="chk_list"
-                            :checked="good.isChecked == 1"
-                            @click="changeIsChecked(good)" />
+                        <input type="checkbox" name="chk_list" :checked="good.isChecked == 1" @click="changeIsChecked(good)" />
                     </li>
                     <li class="cart-list-con2">
                         <img :src="good.imgUrl" />
@@ -30,29 +26,9 @@
                         <span class="price">{{ good.cartPrice }}</span>
                     </li>
                     <li class="cart-list-con5">
-                        <a
-                            href="javascript:void(0)"
-                            @click.prevent="
-                                addOrMinus('minus', good.skuId, good.skuNum)
-                            "
-                            class="mins">
-                            -
-                        </a>
-                        <input
-                            autocomplete="off"
-                            type="text"
-                            :value="good.skuNum"
-                            minnum="1"
-                            class="itxt"
-                            @input="changeGoodNum(good, $event)" />
-                        <a
-                            href="javascript:void(0)"
-                            @click.prevent="
-                                addOrMinus('add', good.skuId, good.skuNum)
-                            "
-                            class="plus">
-                            +
-                        </a>
+                        <a href="javascript:void(0)" @click.prevent="addOrMinus('minus', good.skuId, good.skuNum)" class="mins"> - </a>
+                        <input autocomplete="off" type="text" :value="good.skuNum" minnum="1" class="itxt" @input="changeGoodNum(good, $event)" />
+                        <a href="javascript:void(0)" @click.prevent="addOrMinus('add', good.skuId, good.skuNum)" class="plus"> + </a>
                     </li>
                     <li class="cart-list-con6">
                         <span class="sum">
@@ -60,12 +36,7 @@
                         </span>
                     </li>
                     <li class="cart-list-con7">
-                        <a
-                            href="#none"
-                            @click.prevent="deleteCartGoods(good.skuId)"
-                            class="sindelet">
-                            删除
-                        </a>
+                        <a href="#none" @click.prevent="deleteCartGoods(good.skuId)" class="sindelet"> 删除 </a>
                         <br />
                         <a href="#none">移到收藏</a>
                     </li>
@@ -74,11 +45,7 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input
-                    class="chooseAll"
-                    type="checkbox"
-                    :checked="isCheckAll"
-                    @change="checkAll" />
+                <input class="chooseAll" type="checkbox" :checked="isCheckAll" @change="checkAll" />
                 <span>全选</span>
             </div>
             <div class="option">
@@ -95,7 +62,8 @@
                     <i class="summoney">{{ sumMoney }}</i>
                 </div>
                 <div class="sumbtn">
-                    <a class="sum-btn" href="###" target="_blank">结算</a>
+                    <!-- <a class="sum-btn" href="###" target="_blank">结算</a> -->
+                    <router-link class="sum-btn" to="/trade">结算</router-link>
                 </div>
             </div>
         </div>
@@ -195,10 +163,7 @@
             //全选状态
             async checkAll(event) {
                 try {
-                    await this.$store.dispatch(
-                        "shopcart/checkAll",
-                        event.target.checked
-                    );
+                    await this.$store.dispatch("shopcart/checkAll", event.target.checked);
                     this.getCartList();
                 } catch (error) {
                     alert("操作失败");
@@ -209,10 +174,7 @@
                 try {
                     if (confirm("确定要删除吗？")) {
                         //派发vuex的actions的回调，发送请求
-                        await this.$store.dispatch(
-                            "shopcart/deleteCartGoods",
-                            skuId
-                        );
+                        await this.$store.dispatch("shopcart/deleteCartGoods", skuId);
                         this.getCartList();
                     }
                 } catch (error) {

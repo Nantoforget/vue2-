@@ -42,6 +42,9 @@ export const getUserInfo = () => request.get("/user/passport/auth/getUserInfo");
 //退出登录
 export const userLogout = () => request.get("/user/passport/logout");
 
+//获取订单交易页信息，用户地址等
+export const getTradeInfo = () => request.get("/order/auth/trade");
+
 //模拟接口
 //首页轮播图
 export const reqBanner = () => {

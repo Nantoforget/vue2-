@@ -8,6 +8,7 @@ import Search from "@/pages/search";
 import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
+import Trade from "@/pages/Trade";
 export default [
     {
         name: "home",
@@ -68,6 +69,13 @@ export default [
         name: "shopcart",
         path: "/shopcart",
         component: ShopCart,
+        meta: { isShow: true },
+    },
+    {
+        //订单页面
+        name: "trade",
+        path: "/trade",
+        component: Trade,
         meta: { isShow: true },
     },
     {
