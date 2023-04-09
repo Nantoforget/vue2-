@@ -12,7 +12,7 @@
                         </p>
                         <p v-else>
                             <a>{{ nickName }}</a>
-                            <a class="register">退出登录</a>
+                            <a class="register" @click="logout">退出登录</a>
                         </p>
                     </div>
                     <div class="typeList">
@@ -84,6 +84,14 @@
                     query: query,
                 });
                 this.keyword = null;
+            },
+            //退出登录
+            async logout() {
+                try {
+                    await this.$store.dispatch("user/userLogout");
+                } catch (error) {
+                    alert(error);
+                }
             },
         },
         computed: {

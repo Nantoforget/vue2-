@@ -39,6 +39,8 @@ export const userRegister = (data) => request.post("/user/passport/register", da
 export const getUserSendCode = (phone) => request.get(`/user/passport/sendCode/${phone}`);
 //获取用户信息
 export const getUserInfo = () => request.get("/user/passport/auth/getUserInfo");
+//退出登录
+export const userLogout = () => request.get("/user/passport/logout");
 
 //模拟接口
 //首页轮播图

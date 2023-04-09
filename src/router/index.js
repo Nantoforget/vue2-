@@ -32,6 +32,7 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 
 //引入路由配置
 import routes from "./routes";
+import { GET_TOKEN } from "@/utils/token";
 //自定以路由实例
 const routers = new VueRouter({
     mode: "hash",
@@ -42,5 +43,13 @@ const routers = new VueRouter({
         //滚动条的位置
         return { y: 0 };
     },
+});
+routers.beforeEach((to, from, next) => {
+    console.log(to);
+    console.log(from);
+    if (GET_TOKEN()) {
+        console.log(123);
+    }
+    next();
 });
 export default routers;
