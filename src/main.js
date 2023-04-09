@@ -21,6 +21,8 @@ import "@/mock/mockServe";
 //引入swiper样式文件
 import "swiper/css/swiper.min.css";
 
+//引入路由守卫文件
+import "@/permission";
 new Vue({
     beforeCreate() {
         Vue.prototype.$bus = this;
