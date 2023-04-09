@@ -1,11 +1,14 @@
 //user模块的小仓库---state,actions,mutations,getters
+//引入请求方法
 import { userLogin, userRegister, getUserSendCode, getUserInfo } from "@/api";
+//引入有关token方法
+import { SET_TOKEN, GET_TOKEN } from "@/utils/token";
 //存储数据
 const state = {
     //手机验证码
     code: "",
     //toke
-    token: "",
+    token: GET_TOKEN(),
     //用户信息
     userInfo: {},
 };
@@ -34,14 +37,10 @@ const actions = {
     async userLogin({ state, commit, dispatch }, { phone, password }) {
         let result = await userLogin({ phone, password });
         if (result.code == 200) {
-            if (localStorage.getItem("TOKEN")) {
-                commit("SAVETOKEN", localStorage.getItem("TOKEN"));
-            } else {
-                //将token保存
-                localStorage.setItem("TOKEN", result.data.token);
-                commit("SAVETOKEN", result.data.token);
-            }
-
+            //将token保存(持久化存储本地存储)
+            SET_TOKEN(result.data.token);
+            //必须要有commit，否则第一次登陆vuex中没有token(vuex中的state.user.token为null)
+            commit("SAVETOKEN", result.data.token);
             return "ok";
         } else {
             return Promise.reject(result.message);
