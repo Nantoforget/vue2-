@@ -23,20 +23,23 @@ export const reqSearchList = (searchObj) => {
 //详情页请求接口
 export const getDetailList = (skuId) => request.get(`/item/${skuId}`);
 //添加到购物车(对已有物品进行数量改动)
-export const addOrUpdateCart = (skuId, skuNum) =>
-    request.post(`/cart/addToCart/${skuId}/${skuNum}`);
+export const addOrUpdateCart = (skuId, skuNum) => request.post(`/cart/addToCart/${skuId}/${skuNum}`);
 //获取购物车列表
 export const getCartList = () => request.get("/cart/cartList");
 //切换商品选中状态
-export const isCheckedGood = (skuId, isChecked) =>
-    request.get(`/cart/checkCart/${skuId}/${isChecked}`);
+export const isCheckedGood = (skuId, isChecked) => request.get(`/cart/checkCart/${skuId}/${isChecked}`);
 //删除购物车商品
-export const deleteCartGood = (skuId) =>
-    request.delete(`/cart/deleteCart/${skuId}`);
+export const deleteCartGood = (skuId) => request.delete(`/cart/deleteCart/${skuId}`);
 
 //登录的请求
-export const userLogin = (phone, password) =>
-    request.post("/user/passport/login", { data: { phone, password } });
+export const userLogin = (data) => request.post("/user/passport/login", data);
+//注册请求
+export const userRegister = (data) => request.post("/user/passport/register", data);
+//用户注册的手机验证码
+export const getUserSendCode = (phone) => request.get(`/user/passport/sendCode/${phone}`);
+//获取用户信息
+export const getUserInfo = () => request.get("/user/passport/auth/getUserInfo");
+
 //模拟接口
 //首页轮播图
 export const reqBanner = () => {

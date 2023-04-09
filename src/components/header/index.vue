@@ -6,19 +6,13 @@
                 <div class="container">
                     <div class="loginList">
                         <p>尚品汇欢迎您！</p>
-                        <p>
-                            <span>请</span>
-                            <!-- <a href="###">登录</a> -->
-                            <router-link to="/login" title="登录"
-                                >登录</router-link
-                            >
-                            <router-link
-                                to="/register"
-                                title="注册"
-                                class="register">
-                                免费注册
-                            </router-link>
-                            <!-- <a href="###" class="register">免费注册</a> -->
+                        <p v-if="!nickName">
+                            <router-link to="/login" title="登录">请登录</router-link>
+                            <router-link to="/register" title="注册" class="register"> 免费注册 </router-link>
+                        </p>
+                        <p v-else>
+                            <a>{{ nickName }}</a>
+                            <a class="register">退出登录</a>
                         </p>
                     </div>
                     <div class="typeList">
@@ -43,17 +37,8 @@
                 </h1>
                 <div class="searchArea">
                     <form action="###" class="searchForm">
-                        <input
-                            type="text"
-                            id="autocomplete"
-                            class="input-error input-xxlarge"
-                            v-model="keyword" />
-                        <button
-                            class="sui-btn btn-xlarge btn-danger"
-                            type="button"
-                            @click="goSearch">
-                            搜索
-                        </button>
+                        <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword" />
+                        <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch"> 搜索 </button>
                     </form>
                 </div>
             </div>
@@ -61,6 +46,7 @@
     </div>
 </template>
 <script>
+    import { mapState } from "vuex";
     export default {
         name: "Header",
         data() {
@@ -100,7 +86,11 @@
                 this.keyword = null;
             },
         },
-        computed: {},
+        computed: {
+            ...mapState({
+                nickName: (state) => state.user.userInfo.nickName,
+            }),
+        },
     };
 </script>
 <style scoped lang="less">

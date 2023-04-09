@@ -16,6 +16,8 @@ requests.interceptors.request.use(
         nProgress.start();
         //用户未登录携带临时身份ID
         config.headers["userTempId"] = userId();
+        //token
+        config.headers["token"] = localStorage.getItem("TOKEN");
         return config;
     },
     (err) => {

@@ -36,6 +36,8 @@
         mounted() {
             //派发home模块事件，发送请求，获取floor数据
             this.$store.dispatch("home/getFloors");
+            //登录后发送获取用户信息请求
+            this.$store.dispatch("user/getUserInfo");
         },
     };
 </script>
