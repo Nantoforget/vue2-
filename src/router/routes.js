@@ -1,16 +1,19 @@
 //将路由配置分离出来
-//引入路由組件
+//引入一级路由組件
 import Home from "@/pages/home";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Search from "@/pages/search";
-//详情页
 import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
 import Trade from "@/pages/Trade";
 import Pay from "@/pages/Pay";
 import PaySuccess from "@/pages/PaySuccess";
+import Center from "@/pages/Center";
+//引入二级路由
+import MyOrder from "@/pages/Center/MyOrder";
+import TeamOrder from "@/pages/Center/TeamOrder";
 export default [
     {
         name: "home",
@@ -111,6 +114,32 @@ export default [
                 next();
             }
         },
+    },
+    {
+        //个人中心
+        name: "center",
+        path: "/center",
+        component: Center,
+        meta: { isShow: false },
+        children: [
+            {
+                //我的订单
+                name: "myorder",
+                path: "myorder",
+                component: MyOrder,
+            },
+            {
+                //团队订单
+                name: "teamorder",
+                path: "teamorder",
+                component: TeamOrder,
+            },
+            {
+                //重定向
+                path: "/center",
+                redirect: "myorder",
+            },
+        ],
     },
     {
         //重定向
