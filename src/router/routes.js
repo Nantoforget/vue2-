@@ -9,6 +9,8 @@ import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
 import Trade from "@/pages/Trade";
+import Pay from "@/pages/Pay";
+import PaySuccess from "@/pages/PaySuccess";
 export default [
     {
         name: "home",
@@ -72,13 +74,46 @@ export default [
         meta: { isShow: true },
     },
     {
-        //订单页面
+        //交易页面
         name: "trade",
         path: "/trade",
         component: Trade,
         meta: { isShow: true },
     },
     {
+        //订单页面(从交易页面提交订单)
+        name: "pay",
+        path: "/pay",
+        component: Pay,
+        meta: { isShow: true },
+        beforeEnter: (to, from, next) => {
+            //路由独享守卫
+            //from.path == "/"是刷新
+            if (from.name != "trade" && from.path != "/") {
+                next(from);
+            } else {
+                next();
+            }
+        },
+    },
+    {
+        //支付成功
+        name: "paysuccess",
+        path: "/paysuccess",
+        component: PaySuccess,
+        meta: { isShow: true },
+        beforeEnter: (to, from, next) => {
+            //路由独享守卫
+            //from.path == "/"是刷新
+            if (from.name != "pay" && from.path != "/") {
+                next(from);
+            } else {
+                next();
+            }
+        },
+    },
+    {
+        //重定向
         path: "/",
         redirect: "/home",
     },

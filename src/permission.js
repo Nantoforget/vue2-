@@ -29,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
                 } catch (error) {
                     //如果重新获取用户信息失败，说明token失效3
                     await store.dispatch("user/userLogout");
-                    next({ name: "login" });
+                    next(from);
                 }
             }
         }

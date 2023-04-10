@@ -78,14 +78,14 @@
             >
             <div class="receiveInfo">
                 寄送至:
-                <span>北京市昌平区宏福科技园综合楼6层</span>
-                收货人：<span>张三</span>
-                <span>15010658793</span>
+                <span>{{ userAddress }}</span>
+                收货人：<span>{{ userName }}</span>
+                <span>{{ userPhone }}</span>
             </div>
         </div>
         <div class="sub clearFix">
-            <button class="sunBtn">提交</button>
-            <router-link class="subBtn" to="/pay">提交订单</router-link>
+            <button class="subBtn" @click.stop.prevent="submitOrder">提交订单</button>
+            <!-- <router-link class="subBtn" to="/pay">提交订单</router-link> -->
         </div>
     </div>
 </template>
@@ -130,6 +130,30 @@
             userTextMessage() {
                 console.log(this.userText);
             },
+            //提交订单
+            async submitOrder() {
+                //用户信息参数
+                const data = {
+                    consignee: this.userName,
+                    consigneeTel: this.userPhone,
+                    deliveryAddress: this.userAddress,
+                    paymentWay: "ONLINE",
+                    orderComment: this.userText,
+                    orderDetailList: this.detailArrayList,
+                };
+                try {
+                    //tradeNo为订单编号
+                    let result = await this.$ajax.submitOrder(this.tradeNo, data);
+                    if (result.code == 200) {
+                        //提交成功，跳转路由
+                        this.$router.push({ name: "pay", query: { orderId: result.data } });
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (error) {
+                    alert(error);
+                }
+            },
         },
         mounted() {
             //挂载完毕发送请求
@@ -147,6 +171,30 @@
                 return this.detailArrayList.reduce((prev, next) => {
                     return prev + next.skuNum * next.orderPrice;
                 }, 0);
+            },
+            //收货人
+            userName() {
+                return (
+                    this.userAddressList.find((ele) => {
+                        return ele.isDefault == 1;
+                    }) || {}
+                ).consignee;
+            },
+            //收货人手机号
+            userPhone() {
+                return (
+                    this.userAddressList.find((ele) => {
+                        return ele.isDefault == 1;
+                    }) || {}
+                ).phoneNum;
+            },
+            //收货人地址
+            userAddress() {
+                return (
+                    this.userAddressList.find((ele) => {
+                        return ele.isDefault == 1;
+                    }) || {}
+                ).fullAddress;
             },
         },
     };
@@ -288,8 +336,8 @@
                     line-height: 50px;
                 }
                 img {
-                    width: 85px;
-                    height: 85px;
+                    width: 100px;
+                    height: 100px;
                 }
 
                 .list {

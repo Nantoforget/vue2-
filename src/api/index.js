@@ -44,6 +44,12 @@ export const userLogout = () => request.get("/user/passport/logout");
 
 //获取订单交易页信息，用户地址等
 export const getTradeInfo = () => request.get("/order/auth/trade");
+//提交订单
+export const submitOrder = (tradeNo, data) => request.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, data);
+//获取订单支付信息
+export const userPayMent = (orderId) => request.get(`/payment/weixin/createNative/${orderId}`);
+//查询支付订单状态
+export const queryPayStatus = (orderId) => request.get(`/payment/weixin/queryPayStatus/${orderId}`);
 
 //模拟接口
 //首页轮播图
