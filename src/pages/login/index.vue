@@ -82,7 +82,8 @@
                 if (this.phone && this.password) {
                     try {
                         await this.$store.dispatch("user/userLogin", { phone, password });
-                        this.$router.push({ name: "home" });
+                        //判断在登陆之前是否跳转其他路由页面
+                        this.$router.push({ name: this.$route.query.redirect || "home" });
                     } catch (error) {
                         alert(error);
                     }

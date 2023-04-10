@@ -68,6 +68,15 @@ export default [
         path: "/addcartsuccess",
         component: AddCartSuccess,
         meta: { isShow: true },
+        beforeEnter: (to, from, next) => {
+            //路由独享守卫
+            //from.path == "/"是刷新
+            if (from.name != "trade" && from.path != "/") {
+                next(from);
+            } else {
+                next();
+            }
+        },
     },
     {
         //购物车路由
@@ -82,6 +91,15 @@ export default [
         path: "/trade",
         component: Trade,
         meta: { isShow: true },
+        beforeEnter: (to, from, next) => {
+            //路由独享守卫
+            //from.path == "/"是刷新
+            if (from.name != "shopcart" && from.path != "/") {
+                next(from);
+            } else {
+                next();
+            }
+        },
     },
     {
         //订单页面(从交易页面提交订单)

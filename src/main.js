@@ -27,6 +27,17 @@ import "@/permission";
 //将所用的api请求函数挂载到vue.prototype上
 import * as API from "@/api";
 
+//图片懒加载
+import VueLazyload from "vue-lazyload";
+import longzhu1 from "@/assets/images/1.gif";
+import longzhu2 from "@/assets/images/2.gif";
+Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: longzhu1,
+    loading: longzhu2,
+    attempt: 1,
+});
+
 new Vue({
     beforeCreate() {
         //全局事件总线

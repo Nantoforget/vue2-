@@ -2,6 +2,8 @@
 import router from "@/router";
 import store from "@/store";
 import { GET_TOKEN } from "@/utils/token";
+//未登录不能访问的路由白名单
+const whiteRouteList = ["trade", "pay", "center", "paysuccess", "myorder", "teamorder"];
 //全局前置守卫
 router.beforeEach(async (to, from, next) => {
     /* 
@@ -34,7 +36,20 @@ router.beforeEach(async (to, from, next) => {
             }
         }
     } else {
-        next(); //要放行才能进入路由页面
+        //未登录情况
+        let toName = to.name;
+        if (whiteRouteList.indexOf(toName) != -1) {
+            //未登录要去一些特殊页面需要登录，登陆成功后再调回目标页面
+            //利用不影响路由路径的query参数
+            next({
+                name: "login",
+                query: {
+                    redirect: to.name,
+                },
+            });
+        } else {
+            next(); //要放行才能进入路由页面
+        }
     }
 });
 //全局后置首位

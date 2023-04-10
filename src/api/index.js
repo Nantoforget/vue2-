@@ -50,6 +50,8 @@ export const submitOrder = (tradeNo, data) => request.post(`/order/auth/submitOr
 export const userPayMent = (orderId) => request.get(`/payment/weixin/createNative/${orderId}`);
 //查询支付订单状态
 export const queryPayStatus = (orderId) => request.get(`/payment/weixin/queryPayStatus/${orderId}`);
+//获取我的订单列表
+export const reqMyOrder = (page, limit) => request.get(`/order/auth/${page}/${limit}`);
 
 //模拟接口
 //首页轮播图

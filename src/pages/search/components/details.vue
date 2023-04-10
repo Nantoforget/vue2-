@@ -6,9 +6,7 @@
             <div class="sui-navbar">
                 <div class="navbar-inner filter">
                     <ul class="sui-nav">
-                        <li
-                            :class="order == 1 ? 'active' : ''"
-                            @click.prevent="changeOrder(1)">
+                        <li :class="order == 1 ? 'active' : ''" @click.prevent="changeOrder(1)">
                             <a href="#">
                                 综合
                                 <span v-show="order == 1">
@@ -17,9 +15,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li
-                            :class="order == 2 ? 'active' : ''"
-                            @click.prevent="changeOrder(2)">
+                        <li :class="order == 2 ? 'active' : ''" @click.prevent="changeOrder(2)">
                             <a href="#">
                                 价格
                                 <span v-show="order == 2">
@@ -34,18 +30,12 @@
             <!-- 商品列表 -->
             <div class="goods-list">
                 <ul class="yui3-g">
-                    <li
-                        class="yui3-u-1-5"
-                        v-for="good in goodsList"
-                        :key="good.id">
+                    <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                         <div class="list-wrap"
                             >+
                             <div class="p-img">
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    @click.prevent="goDetail(good.id)">
-                                    <img :src="good.defaultImg" />
+                                <a href="#" target="_blank" @click.prevent="goDetail(good.id)">
+                                    <img v-lazy="good.defaultImg" />
                                 </a>
                             </div>
                             <div class="price">
@@ -55,12 +45,7 @@
                                 </strong>
                             </div>
                             <div class="attr">
-                                <a
-                                    target="_blank"
-                                    href="item.html"
-                                    :title="good.title"
-                                    >{{ good.title }}</a
-                                >
+                                <a target="_blank" href="item.html" :title="good.title">{{ good.title }}</a>
                             </div>
                             <div class="commit">
                                 <i class="command"
@@ -69,17 +54,8 @@
                                 >
                             </div>
                             <div class="operate">
-                                <a
-                                    href="success-cart.html"
-                                    target="_blank"
-                                    class="sui-btn btn-bordered btn-danger"
-                                    >加入购物车</a
-                                >
-                                <a
-                                    href="javascript:void(0);"
-                                    class="sui-btn btn-bordered"
-                                    >收藏</a
-                                >
+                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+                                <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
                             </div>
                         </div>
                     </li>
