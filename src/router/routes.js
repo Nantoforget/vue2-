@@ -1,9 +1,7 @@
 //将路由配置分离出来
-//引入一级路由組件
-import Home from "@/pages/home";
+//引入一级路由組件(home和search写成了懒加载形式)
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import Search from "@/pages/search";
 import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
@@ -18,7 +16,7 @@ export default [
     {
         name: "home",
         path: "/home",
-        component: Home,
+        component: () => import("@/pages/home"), //路由懒加载
         //isShow表示footer组件是否显示
         meta: { isShow: true }, //路由元信息：给当前路由注入一些额外的信息；必须是meta，只可以任意类型
     },
@@ -37,7 +35,7 @@ export default [
     {
         name: "search", //命名路由(一般与params参数结合使用)
         path: "/search/:keyword?", //params参数占位,?表示可传可不传
-        component: Search,
+        component: () => import("@/pages/search"), //路由懒加载
         meta: { isShow: true },
         //props: true, // 布尔值写法：props:true()代表给路由传递props数据,传递的是params参数
         /* props: {
