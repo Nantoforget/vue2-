@@ -47,6 +47,7 @@
             <div class="select-all">
                 <input class="chooseAll" type="checkbox" :checked="isCheckAll" @change="checkAll" />
                 <span>全选</span>
+                <button @click="reverse">反选</button>
             </div>
             <div class="option">
                 <a href="#none" @click.prevent="deleteAll">删除选中的商品</a>
@@ -165,6 +166,14 @@
                 try {
                     await this.$store.dispatch("shopcart/checkAll", event.target.checked);
                     this.getCartList();
+                } catch (error) {
+                    alert("操作失败");
+                }
+            },
+            //反选
+            async reverse() {
+                try {
+                    await this.$store.dispatch("shopcart/reverse");
                 } catch (error) {
                     alert("操作失败");
                 }

@@ -1,10 +1,5 @@
 //shopcart模块的小仓库---state,actions,mutations,getters
-import {
-    getCartList,
-    addOrUpdateCart,
-    isCheckedGood,
-    deleteCartGood,
-} from "@/api";
+import { getCartList, addOrUpdateCart, isCheckedGood, deleteCartGood } from "@/api";
 //存储数据
 const state = {
     //购物车数据
@@ -45,6 +40,24 @@ const actions = {
             let check = dispatch("changeIsChecked", {
                 skuId: good.skuId,
                 isChecked: +boo,
+            });
+            arr.push(check);
+        });
+        return Promise.all(arr);
+    },
+    //反选
+    reverse({ state, commit, dispatch }) {
+        const arr = [];
+        console.log(state.cartList[0].cartInfoList);
+        state.cartList[0].cartInfoList.forEach((ele) => {
+            if (ele.isChecked == 1) {
+                ele.isChecked = 0;
+            } else {
+                ele.isChecked = 1;
+            }
+            let check = dispatch("changeIsChecked", {
+                skuId: ele.skuId,
+                isChecked: ele.isChecked,
             });
             arr.push(check);
         });

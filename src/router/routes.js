@@ -69,7 +69,7 @@ export default [
         beforeEnter: (to, from, next) => {
             //路由独享守卫
             //from.path == "/"是刷新
-            if (from.name != "trade" && from.path != "/") {
+            if (from.name != "detail" && from.path != "/") {
                 next(from);
             } else {
                 next();
